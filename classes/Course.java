@@ -19,7 +19,7 @@ public class Course
   {
     return courseName;
   }
-
+  
   public void setCourseNo(String courseNo)
   {
     this.courseNo = courseNo;
