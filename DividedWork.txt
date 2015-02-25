@@ -1,0 +1,5 @@
+CourseCatalog			<Erin>
+ScheduleOfClasses		<AShley>
+<Enum>EnrollmentStatues		<Rick>
+Section				<Tyler>
+TranscriptEntry			<Colton>
