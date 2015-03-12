@@ -7,7 +7,7 @@ public enum EnrollmentStatus
 	
 	private final String value;
 
-	public EnrollmentStatus(String value)
+	EnrollmentStatus(String value)
 	{
 		this.value = value;
 	}
