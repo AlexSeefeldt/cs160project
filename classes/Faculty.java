@@ -6,7 +6,7 @@ public class Faculty
 
 	/**
 	 * Constructs a <code>Faculty</code> from an <code>ArrayList</code> of <code>Professor</code>s.
-	 * @param  professors an <code>ArrayList</code> containing the <code>Professors</code> to be added.
+	 * @param  pList an <code>ArrayList</code> containing the <code>Professor</code>s to be added.
 	 */
 	public Faculty(ArrayList<Professor> pList)
 	{
