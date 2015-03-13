@@ -1,14 +1,15 @@
 import java.util.ArrayList;
-/** This class models a course
-
-*/ 
+/** 
+ * This class models a course
+ */ 
 public class Course
 {
   private String courseName;
   private String courseNo;
   private double credits;
-  private ArrayList<Section>offeredAsSection;
-  private ArrayList<Course>prerequisites;
+  private int sectionNumberer = 0;
+  private ArrayList<Section> offeredAsSection;
+  private ArrayList<Course> prerequisites;
 
   /**
    * constructor initialize course with given name 
@@ -69,10 +70,10 @@ public class Course
     return credits;
   }
 
-/**
- * display's the course information
- */
-  public display()
+  /**
+  * display's the course information
+  */
+  public void display()
   {
     System.out.println("Course details:");
     System.out.println("courseName:"+ this.getCourseName());
@@ -80,40 +81,50 @@ public class Course
     System.out.println("credits:"+this.getCredits());
 
   }
-  
-/**
- * return the string representation of the course
- * @return the courseName, courseNumber and courseCredit
- */
+    
+  /**
+  * return the string representation of the course
+  * @return the courseName, courseNumber and courseCredit
+  */
   public String toString()
   {
     return "courseName:"+this.getCourseName()+"courseNumber:"+this.getCourseNo()+ "courseCredit:"+ this.getCredits();
   }
 
-  public addPrerequisite(Course)
+  public void addPrerequisite(Course course)
   { 
-
+    this.prerequisites.add(course);
   }
 
   public Boolean hasPrerequisite()
-  {//Complete if you know what goes here
-
+  {
+    if(this.prerequisites.isEmpty() == true)
+      return false;
+    else
+      return true;
   }
- public getPrerequisites()
- {
-    // how do I get the prerequisites
- }
 
- public Section scheduleSection(day,time,room,capacity)
- {
-  // What goes here
+  public ArrayList<Course> getPrerequisites()
+  {
+    return this.prerequisites;
+  }
 
- }
+  public Section scheduleSection(String day, String time, String room, int capacity)
+  {
+    Section returnSection = new Section(this);
+    returnSection.setDayOfWeek(day);
+    returnSection.setTimeOfDay(time);
+    returnSection.setRoom(room);
+    returnSection.setSeatingCapacity(capacity);
+    returnSection.setSectionNo(""+sectionNumberer++);
+    return returnSection;
+  }
 
- public addSection(Section)
- { // 
+  public void addSection(Section section)
+  {
+    this.offeredAsSection.add(section);
+  }
 
- }
 }
   
 

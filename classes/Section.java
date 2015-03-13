@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Section
 {
 	private Course representedCourse;
@@ -110,7 +112,7 @@ public class Section
 		this.offeredIn = offeredIn;
 	}
 
-	public String toString{
+	public String toString(){
 		return "Section number: "+sectionNo+" Day of week: "+dayOfWeek+" Time of day: "+timeOfDay+" Room number: "+room+" Seating Capacity: "+seatingCapacity+" Represented course"+representedCourse+" Instructor: "+instructor+"Offered in:"+offeredIn;
 	}
 
@@ -121,23 +123,23 @@ public class Section
 	 */
 	public boolean confirmSeatAvailability(){
 		if(this.seatingCapacity == 0){
-			return false
+			return false;
 		}
 		else{
-			return true
+			return true;
 		}
 	}
 
 	public static boolean confirmSeatAvailability(int seatingCapacity){
 		if(seatingCapacity == 0){
-			return false
+			return false;
 		}
 		else{
-			return true
+			return true;
 		}
 	}
 
-	private static boolean checkPrereqs(Student student)
+	private boolean checkPrereqs(Student student)
 	{
 		for (Course c : this.representedCourse.getPrerequisites())
 		{
