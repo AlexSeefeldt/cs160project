@@ -5,11 +5,8 @@ public class TranscriptEntry
   private Section section;
   private Transcript transcript;
  
-  public TranscriptEntry(Student student, Section section, Transcript transcript)
+  public TranscriptEntry()
   {
-    this.student = student;
-    this.section = section;
-    this.transcript = transcript;
   }
  
   public void setStudent(Student student)
