@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+/**
+ * This class models a professor.
+ * @author Alex Seefeldt
+ */
 public class Professor extends Person
 {
 	private String title;

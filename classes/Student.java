@@ -1,5 +1,8 @@
 import java.util.ArrayList;
-
+/**
+ * This class models a student.
+ * @author Alex Seefeldt
+ */
 public class Student extends Person
 {
 	private String major;
@@ -20,7 +23,7 @@ public class Student extends Person
 		this.major = major;
 		this.degree = degree;
 		//might need to change this Transcript constructor
-		this.transcript = new Transcript();
+		this.transcript = new Transcript(this);
 		//is this a proper ArrayList constructor?
 		this.attends = new ArrayList<Section>();
 	}

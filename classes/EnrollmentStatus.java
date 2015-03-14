@@ -1,3 +1,8 @@
+/**
+ * This <code>Enum</code> gives the possible situations that can happen when
+ * a <code>Student</code> attempts to enroll in a <code>Section</code>.
+ * @author Rick Fischer
+ */
 public enum EnrollmentStatus
 {
 	success ( "Enrollment successful! :o)"), 

@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+/**
+ * This class models a transcript
+ * @author Alex Seefeldt
+ */
 public class Transcript
 {
 	private ArrayList<TranscriptEntry> transcriptEntries;

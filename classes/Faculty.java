@@ -1,3 +1,7 @@
+/**
+ * This class is a collection of <code>Professor</code>s.
+ * @author Alex Seefeldt
+ */
 import java.util.*;
 
 public class Faculty

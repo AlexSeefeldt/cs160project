@@ -1,3 +1,7 @@
+/**
+ * This interface models a person with a name and a Social Security Number.
+ * @author Alex Seefeldt
+ */
 public abstract class Person
 {
 	private String name;

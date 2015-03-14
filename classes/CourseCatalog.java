@@ -1,5 +1,9 @@
 import java.util.*;
 
+/**
+ * This class models a catalog of courses
+ * @author Erin Queme
+ */
 public class CourseCatalog
 {
 	private HashMap<String, Course> courses;
