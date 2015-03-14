@@ -13,6 +13,7 @@ public class Section
 	private HashMap<String,Student> enrolledStudents;
 	private HashMap<Student,TranscriptEntry> assignedGrades;
 
+
 	public Section(Course representedCourse){
 		this.representedCourse = representedCourse;
 	}
