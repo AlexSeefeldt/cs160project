@@ -17,6 +17,7 @@ public class Section
 	private HashMap<String,Student> enrolledStudents;
 	private HashMap<Student,TranscriptEntry> assignedGrades;
 
+<<<<<<< HEAD
 	/**
 	 * Constructs a new <code>Section</code> that represents the given <code>Course</code>.
 	 * @param  representedCourse <code>Course</code> that the new <code>Section</code> represents
@@ -24,6 +25,10 @@ public class Section
 	 */
 	public Section(Course representedCourse)
 	{
+=======
+
+	public Section(Course representedCourse){
+>>>>>>> origin/master
 		this.representedCourse = representedCourse;
 	}
 
