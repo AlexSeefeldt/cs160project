@@ -1,0 +1,26 @@
+public static Faculty initializeFaculty() throws FileNotFoundException, UninitializedScheduleOfClassesException
+	{ 	if(scheduleOfClasses == null)
+			throw new UninitializedScheduleOfClassesException();
+		fileScan = new Scanner(new File(FACULTY_FILE_NAME));
+		ArrayList<Professor> profList = new ArrayList<Professor>();
+		while (fileScan.hasNextLine())
+		{
+			String line = fileScan.nextLine();
+			String[] items = line.split("\t");
+			Professor newProf = new Professor(items[0],items[1],items[2],items[3]);
+			profList.add(newProf);
+		}
+		fileScan.close();
+		Faculty returnFaculty = new Faculty(profList);
+		return returnFaculty;
+		fileScan = new Scanner(new File(ASSIGNMENTS_FILE_NAME));
+		while (fileScan.hasNextLine())
+		{
+			String line = fileScan.nextLine();
+			String[] items = line.split("\t");
+			returnFaculty.findProfessor(items[0]).agreeToTeach(scheduleOfClasses.findSection(items[1]));
+
+		}
+		fileScan.close();
+	}
+}
