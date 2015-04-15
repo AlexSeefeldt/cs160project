@@ -1,29 +1,26 @@
-import java.acm.*;
 import java.io.*;
 
-public class SRSTester extends ConsoleProgram{
+public class SRSTester{
 	
-	private Faculty faculty;
-	private CourseCatolog courseCatalog;
-	private ScheduleOfClasses scheduleOfClasses;
-	private SRSDataAccess srsDataAccess;
+	private static Faculty faculty;
+	private static CourseCatalog courseCatalog;
+	private static ScheduleOfClasses scheduleOfClasses;
+	private static SRSDataAccess srsDataAccess;
 
-	public void run(){
+	public static void main(String[] args){
 		srsDataAccess = new SRSDataAccess();
-		faculty = initializeFaculty();
-		courseCatalog = initializeCourseCatalog();
-		scheduleOfClasses = initializeScheduleOfClasses("SP2005");
-
+		
 		try{
-			
+			courseCatalog = initializeCourseCatalog();
+			scheduleOfClasses = initializeScheduleOfClasses("SP2005");
+			faculty = initializeFaculty();
 		}
-		catch(FileNotFoundException e){
+		catch(FileNotFoundException e){}
+		catch(UninitializedCourseCatalogException e){}
+		catch(UninitializedScheduleOfClasses e){}
 
-		}
-
-		println("Here is the object faculty: \n"+faculty);
-		println("Here is the object course catalog: \n"+courseCatalog);
-		println("Here is the object schedule of classes: \n"+scheduleOfClasses);
-
+		System.out.println("Here is the object faculty: \n"+faculty);
+		System.out.println("Here is the object course catalog: \n"+courseCatalog);
+		System.out.println("Here is the object schedule of classes: \n"+scheduleOfClasses);
 	}
 }
