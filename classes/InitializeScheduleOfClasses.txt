@@ -1,0 +1,21 @@
+	public static ScheduleOfClasses initializeScheduleOfClasses(String semester) throws FileNotFoundException, UninitializedCourseCatalogException
+	{
+		if(courseCatalog == null)
+			throw new UninitializedCourseCatalogException();
+		fileScan = new Scanner(new File(SCHEDULE_FILE_NAME+semester+".dat"));
+		scheduleOfClasses = new ScheduleOfClasses(semester);
+		while (fileScan.hasNextLine())
+		{
+			String line = fileScan.nextLine();
+			String[] items = line.split("\t");
+			newSection = new Section(courseCatalog.findCourse(items[0]))
+			newSection.setSectionNo(items[1]);
+			newSection.setDayOfWeek(items[2]);
+			newSection.setTimeOfDay(items[3]);
+			newSection.setRoom(items[4]);
+			newSection.setSeatingCapacity(Integer.parseInt(items[5]));
+			scheduleOfClasses.addSection(newSection);
+		}
+		fileScan.close();
+		return scheduleOfClasses;
+	}

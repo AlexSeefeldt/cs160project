@@ -1,0 +1,23 @@
+	public static CourseCatalog initializeCourseCatalog() throws FileNotFoundException
+	{
+		fileScan = new Scanner(new File(COURSE_FILE_NAME));
+		ArrayList<Course> courseList = new ArrayList<Course>();
+		while (fileScan.hasNextLine())
+		{
+			String line = fileScan.nextLine();
+			String[] items = line.split("\t");
+			Course newCourse = new Course(items[1],items[0]);
+			newCourse.setCredits(Double.parseDouble(items[2]);
+			courseList.add(newCourse);
+		}
+		fileScan.close();
+		courseCatalog = new CourseCatalog(courseList);
+		fileScan = new Scanner(new File(PREREQ_FILE_NAME));
+		while (fileScan.hasNextLine())
+		{
+			String line = fileScan.nextLine();
+			String[] items = line.split("\t");
+			courseCatalog.findCourse(items[1]).addPrerequisite(courseCatalog.findCourse(items[0]));
+		}
+		return courseCatalog;
+	}

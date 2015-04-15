@@ -5,14 +5,14 @@ import java.io.FileNotFoundException;
 
 public class SRSDataAccess
 {
-	private static final String SCHEDULE_FILE_NAME = "SoC_SP2005.dat";
+	private static final String SCHEDULE_FILE_NAME = "SoC_";
 	private static final String FACULTY_FILE_NAME = "Faculty.dat";
 	private static final String ASSIGNMENTS_FILE_NAME = "TeachingAssignments.dat";
 	private static final String COURSE_FILE_NAME = "CourseCatalog.dat";
 	private static final String PREREQ_FILE_NAME = "Prerequisites.dat";
+	private static ScheduleOfClasses scheduleOfClasses = null;
+	private static CourseCatalog courseCatalog = null;
 	private static Scanner fileScan;
-
-	public SRSDataAccess() {}
 
 	public static Faculty initializeFaculty() throws FileNotFoundException
 	{
