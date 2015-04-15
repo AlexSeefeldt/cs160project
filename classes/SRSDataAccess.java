@@ -5,11 +5,11 @@ import java.io.FileNotFoundException;
 
 public class SRSDataAccess
 {
-	private static final String SCHEDULE_FILE_NAME = "SoC_";
-	private static final String FACULTY_FILE_NAME = "Faculty.dat";
-	private static final String ASSIGNMENTS_FILE_NAME = "TeachingAssignments.dat";
-	private static final String COURSE_FILE_NAME = "CourseCatalog.dat";
-	private static final String PREREQ_FILE_NAME = "Prerequisites.dat";
+	private static final String SCHEDULE_FILE_NAME = "SRSDatFiles\\SoC_";
+	private static final String FACULTY_FILE_NAME = "SRSDatFiles\\Faculty.dat";
+	private static final String ASSIGNMENTS_FILE_NAME = "SRSDatFiles\\TeachingAssignments.dat";
+	private static final String COURSE_FILE_NAME = "SRSDatFiles\\CourseCatalog.dat";
+	private static final String PREREQ_FILE_NAME = "SRSDatFiles\\Prerequisites.dat";
 	private static ScheduleOfClasses scheduleOfClasses = null;
 	private static CourseCatalog courseCatalog = null;
 	private static Scanner fileScan;
@@ -41,7 +41,7 @@ public class SRSDataAccess
 	public static ScheduleOfClasses initializeScheduleOfClasses(String semester) throws FileNotFoundException, UninitializedCourseCatalogException
 	{
 		if(courseCatalog == null)
-			throw new UninitializedCourseCatalogException();
+			throw new UninitializedCourseCatalogException("CourseCatalog must be initialized first");
 		fileScan = new Scanner(new File(SCHEDULE_FILE_NAME+semester+".dat"));
 		scheduleOfClasses = new ScheduleOfClasses(semester);
 		while (fileScan.hasNextLine())
@@ -62,7 +62,7 @@ public class SRSDataAccess
 
 	public static Faculty initializeFaculty() throws FileNotFoundException, UninitializedScheduleOfClassesException
 	{ 	if(scheduleOfClasses == null)
-			throw new UninitializedScheduleOfClassesException();
+			throw new UninitializedScheduleOfClassesException("ScheduleOfClasses must be initialized first");
 		fileScan = new Scanner(new File(FACULTY_FILE_NAME));
 		ArrayList<Professor> profList = new ArrayList<Professor>();
 		while (fileScan.hasNextLine())
@@ -80,7 +80,7 @@ public class SRSDataAccess
 			String line = fileScan.nextLine();
 			String[] items = line.split("\t");
 			returnFaculty.findProfessor(items[0]).agreeToTeach(scheduleOfClasses.findSection(items[1]));
-			scheduleOfClasses.findSection(items[1]).setInstructor(returnFaculty.findProfessor(items[0]));
+//			scheduleOfClasses.findSection(items[1]).setInstructor(returnFaculty.findProfessor(items[0]));
 		}
 		fileScan.close();
 		return returnFaculty;

@@ -9,16 +9,14 @@ public class SRSTester{
 
 	public static void main(String[] args){
 		srsDataAccess = new SRSDataAccess();
-		
 		try{
-			courseCatalog = initializeCourseCatalog();
-			scheduleOfClasses = initializeScheduleOfClasses("SP2005");
-			faculty = initializeFaculty();
+			courseCatalog = srsDataAccess.initializeCourseCatalog();
+			scheduleOfClasses = srsDataAccess.initializeScheduleOfClasses("SP2005");
+			faculty = srsDataAccess.initializeFaculty();
 		}
-		catch(FileNotFoundException e){}
-		catch(UninitializedCourseCatalogException e){}
-		catch(UninitializedScheduleOfClasses e){}
-
+		catch(FileNotFoundException e){System.out.println("FileNotFound");}
+		catch(UninitializedCourseCatalogException e){System.out.println("CourseCatalog");}
+		catch(UninitializedScheduleOfClassesException e){System.out.println("ScheduleOfClasses");}
 		System.out.println("Here is the object faculty: \n"+faculty);
 		System.out.println("Here is the object course catalog: \n"+courseCatalog);
 		System.out.println("Here is the object schedule of classes: \n"+scheduleOfClasses);

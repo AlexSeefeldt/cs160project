@@ -8,7 +8,7 @@ public class Professor extends Person
 {
 	private String title;
 	private String department;
-	private ArrayList<Section> teaches;
+	private ArrayList<Section> teaches = new ArrayList<Section>();
 
 	/**
 	 * Constructs a <code>Professor</code> with specified name, SSN, title, and department.

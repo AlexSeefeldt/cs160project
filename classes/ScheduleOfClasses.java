@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class ScheduleOfClasses
 {
 	private String semester;
-  private HashMap<String, Section> sectionsOffered;
+  private HashMap<String, Section> sectionsOffered = new HashMap<String, Section>();
 
   /**
    * The constructor initializes the string variable

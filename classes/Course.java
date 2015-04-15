@@ -10,7 +10,7 @@ public class Course
   private double credits;
   private int sectionNumberer = 0;
   private ArrayList<Section> offeredAsSection;
-  private ArrayList<Course> prerequisites;
+  private ArrayList<Course> prerequisites = new ArrayList<Course>();
 
   /**
    * Constructs a <code>Course</code> with the specified name and number.
