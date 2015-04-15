@@ -14,8 +14,55 @@ public class SRSDataAccess
 	private static CourseCatalog courseCatalog = null;
 	private static Scanner fileScan;
 
-	public static Faculty initializeFaculty() throws FileNotFoundException
+	public static CourseCatalog initializeCourseCatalog() throws FileNotFoundException
 	{
+		fileScan = new Scanner(new File(COURSE_FILE_NAME));
+		ArrayList<Course> courseList = new ArrayList<Course>();
+		while (fileScan.hasNextLine())
+		{
+			String line = fileScan.nextLine();
+			String[] items = line.split("\t");
+			Course newCourse = new Course(items[1],items[0]);
+			newCourse.setCredits(Double.parseDouble(items[2]));
+			courseList.add(newCourse);
+		}
+		fileScan.close();
+		courseCatalog = new CourseCatalog(courseList);
+		fileScan = new Scanner(new File(PREREQ_FILE_NAME));
+		while (fileScan.hasNextLine())
+		{
+			String line = fileScan.nextLine();
+			String[] items = line.split("\t");
+			courseCatalog.findCourse(items[1]).addPrerequisite(courseCatalog.findCourse(items[0]));
+		}
+		return courseCatalog;
+	}
+
+	public static ScheduleOfClasses initializeScheduleOfClasses(String semester) throws FileNotFoundException, UninitializedCourseCatalogException
+	{
+		if(courseCatalog == null)
+			throw new UninitializedCourseCatalogException();
+		fileScan = new Scanner(new File(SCHEDULE_FILE_NAME+semester+".dat"));
+		scheduleOfClasses = new ScheduleOfClasses(semester);
+		while (fileScan.hasNextLine())
+		{
+			String line = fileScan.nextLine();
+			String[] items = line.split("\t");
+			Section newSection = new Section(courseCatalog.findCourse(items[0]));
+			newSection.setSectionNo(items[1]);
+			newSection.setDayOfWeek(items[2]);
+			newSection.setTimeOfDay(items[3]);
+			newSection.setRoom(items[4]);
+			newSection.setSeatingCapacity(Integer.parseInt(items[5]));
+			scheduleOfClasses.addSection(newSection);
+		}
+		fileScan.close();
+		return scheduleOfClasses;
+	}
+
+	public static Faculty initializeFaculty() throws FileNotFoundException, UninitializedScheduleOfClassesException
+	{ 	if(scheduleOfClasses == null)
+			throw new UninitializedScheduleOfClassesException();
 		fileScan = new Scanner(new File(FACULTY_FILE_NAME));
 		ArrayList<Professor> profList = new ArrayList<Professor>();
 		while (fileScan.hasNextLine())
@@ -26,15 +73,16 @@ public class SRSDataAccess
 			profList.add(newProf);
 		}
 		fileScan.close();
+		Faculty returnFaculty = new Faculty(profList);
 		fileScan = new Scanner(new File(ASSIGNMENTS_FILE_NAME));
 		while (fileScan.hasNextLine())
 		{
 			String line = fileScan.nextLine();
 			String[] items = line.split("\t");
-			// issues here!!! Where are we supposed to get the sections from?
+			returnFaculty.findProfessor(items[0]).agreeToTeach(scheduleOfClasses.findSection(items[1]));
+			scheduleOfClasses.findSection(items[1]).setInstructor(returnFaculty.findProfessor(items[0]));
 		}
-
-		Faculty returnFaculty = new Faculty(profList);
+		fileScan.close();
 		return returnFaculty;
 	}
 }
