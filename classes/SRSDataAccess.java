@@ -61,7 +61,8 @@ public class SRSDataAccess
 	}
 
 	public static Faculty initializeFaculty() throws FileNotFoundException, UninitializedScheduleOfClassesException
-	{ 	if(scheduleOfClasses == null)
+	{ 	
+		if(scheduleOfClasses == null)
 			throw new UninitializedScheduleOfClassesException("ScheduleOfClasses must be initialized first");
 		fileScan = new Scanner(new File(FACULTY_FILE_NAME));
 		ArrayList<Professor> profList = new ArrayList<Professor>();
@@ -84,5 +85,22 @@ public class SRSDataAccess
 		}
 		fileScan.close();
 		return returnFaculty;
+	}
+
+	public static Student intitializeStudent(String ssn) throws FileNotFoundException, UninitializedScheduleOfClassesException
+	{
+		if(scheduleOfClasses == null)
+			throw new UninitializedScheduleOfClassesException();
+		fileScan = new Scanner(new File( ssn + ".dat"));
+		String line = fileScan.nextLine();
+		String[] items = line.split("\t");
+		Student newStudent = new Student(items[1],items[0],items[2],items[3]);
+		while (fileScan.hasNextLine())
+		{
+			line = fileScan.nextLine();
+			newStudent.addSection(scheduleOfClasses.findSection(line));
+		}
+		fileScan.close();
+		return newStudent;
 	}
 }
