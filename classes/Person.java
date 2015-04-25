@@ -14,8 +14,8 @@ public abstract class Person
 	 */
 	public Person(String name, String ssn)
 	{
-		this.name = name;
-		this.ssn = ssn;
+		setName(name);
+		setSsn(ssn);
 	}
 
 	/**
@@ -59,8 +59,12 @@ public abstract class Person
 	 */
 	public void display()
 	{
-		//what go here
+		System.out.println("A person's detailed information:");
+		System.out.println("\tName: " + getName());
+		System.out.println("\tSocial Security No: " + getSsn());
 	}
 
 	public abstract String toString();
+	
+
 }
