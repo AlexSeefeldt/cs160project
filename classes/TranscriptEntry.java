@@ -13,8 +13,14 @@ public class TranscriptEntry
    * Constructs a new <code>TranscriptEntry</code>
    * @return new TranscriptEntry
    */
-  public TranscriptEntry()
+  public TranscriptEntry(Student student, String grade, Section sect)
   {
+    setStudent(student);
+    setGrade(grade);
+    setSection(section);
+    Transcript tran= student.getTranscript();
+    setTranscript(tran);
+    
   }
  
 

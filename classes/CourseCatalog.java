@@ -26,7 +26,7 @@ public class CourseCatalog
 	 */
 	public void display()
 	{
-		//display code
+		
 	}
 
 	/**

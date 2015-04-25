@@ -20,8 +20,8 @@ public class Professor extends Person
 	public Professor(String name, String ssn, String title, String department)
 	{
 		super(name, ssn);
-		this.title = title;
-		this.department = department;
+		setTitle(title);
+		setDepartment(department);
 	}
 
 	/**
@@ -65,7 +65,11 @@ public class Professor extends Person
 	 */
 	public void display()
 	{
-		//display code
+		super.display();
+		System.out.println("Professor's detailed information:");
+		System.out.println("\tProfessor's department:"+ getDepartment());
+		System.out.println("\tTitle:"+ getTitle());
+		displayTeachingAssignments();
 	}
 
 	/**
@@ -82,7 +86,7 @@ public class Professor extends Person
 	 */
 	public void displayTeachingAssignments()
 	{
-		//display code
+		System.out.println("Teaching Assignments by " + getName() + ":" );
 	}
 
 	/**

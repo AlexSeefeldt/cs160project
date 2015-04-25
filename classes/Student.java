@@ -96,7 +96,13 @@ public class Student extends Person
 	 */
 	public void display()
 	{
-		//display code
+		super.display();
+		System.out.println("Student's Information:");
+		System.out.println("\tDegree:" + getDegree());
+		System.out.println("\tMajor:"+ getMajor());
+		displayCourseSchedule();
+		printTranscript();
+
 	}
 
 	/**
@@ -112,8 +118,7 @@ public class Student extends Person
 	 * Displays the <code>Student</code>'s course schedule.
 	 */
 	public void displayCourseSchedule()
-	{
-		//display code
+	{//
 	}
 
 	/**
@@ -166,6 +171,6 @@ public class Student extends Person
 	 */
 	public void printTranscript()
 	{
-		//Once transcript is done
-	}
+		getTranscript();	
 }
+	}

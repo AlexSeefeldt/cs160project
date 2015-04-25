@@ -259,7 +259,11 @@ public class Section
 	 */
 	public void display()
 	{
-		//stuff goes here later
+		System.out.println("Section details:");
+	    System.out.println("\tCourse Number:"+ getRepresentedCourse().getCourseNo());
+	    System.out.println("\tSemester:" + getOfferedIn().getSemester());
+	    System.out.println("\tProfessor:"+ getInstructor().getName());
+	    displayStudentRoster();
 	}
 
 	/**
@@ -267,7 +271,9 @@ public class Section
 	 */
 	public void displayStudentRoster()
 	{
-		//stuff
+		
+
+
 	}
 
 	/**

@@ -26,7 +26,8 @@ public class Faculty
 	 */
 	public void display()
 	{
-		//display code
+		
+		
 	}
 
 	/**
