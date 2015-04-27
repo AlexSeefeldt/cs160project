@@ -17,8 +17,23 @@ public class SRSTester{
 		catch(FileNotFoundException e){System.out.println("FileNotFound");}
 		catch(UninitializedCourseCatalogException e){System.out.println("CourseCatalog");}
 		catch(UninitializedScheduleOfClassesException e){System.out.println("ScheduleOfClasses");}
-		System.out.println("Here is the object faculty: \n"+faculty);
-		System.out.println("Here is the object course catalog: \n"+courseCatalog);
-		System.out.println("Here is the object schedule of classes: \n"+scheduleOfClasses);
+		
+		
+
+		System.out.println("Professor Details:");
+		System.out.println("");
+		faculty.display();
+       
+       System.out.println("Student Details:");
+       System.out.println("");
+
+       System.out.println("Course Catalog:");
+		System.out.println("");
+		CourseCatalog.display();
+
+		System.out.println("Schedule of Classes:");
+		System.out.println("");
+		scheduleofClasses.display();
+
 	}
 }
