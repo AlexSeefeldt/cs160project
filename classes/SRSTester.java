@@ -3,8 +3,8 @@ import java.io.*;
 public class SRSTester{
 	
 	private static Faculty faculty;
-	private static CourseCatalog courseCatalog;
-	private static ScheduleOfClasses scheduleOfClasses;
+	private static CourseCatalog courseCatalog ;
+		private static ScheduleOfClasses scheduleOfClasses;
 	private static SRSDataAccess srsDataAccess;
 
 	public static void main(String[] args){
@@ -33,7 +33,7 @@ public class SRSTester{
 
 		System.out.println("Schedule of Classes:");
 		System.out.println("");
-		scheduleofClasses.display();
+		ScheduleofClasses.display();
 
 	}
 }
