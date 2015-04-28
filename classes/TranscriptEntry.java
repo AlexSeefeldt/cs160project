@@ -20,7 +20,6 @@ public class TranscriptEntry
     setSection(section);
     Transcript tran= student.getTranscript();
     setTranscript(tran);
-    
   }
  
 

@@ -53,4 +53,22 @@ public class Transcript
 		}
 		return false;
 	}
+
+	/**
+	 * Displays the <code>Transcript</code>.
+	 */
+	public void display()
+	{
+		System.out.println("Transcript for " + studentOwner.getName());
+		if (!transcriptEntries.isEmpty())
+		{
+			for (TranscriptEntry tE : transcriptEntries)
+			{
+				System.out.println(tE.getSection().getRepresentedCourse().getCourseNo() + ": " + tE.getGrade());
+			}
+		}
+		else
+			System.out.println("No Courses in Transcript");
+		System.out.println("End Transcript");
+	}
 }
