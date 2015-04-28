@@ -26,7 +26,12 @@ public class CourseCatalog
 	 */
 	public void display()
 	{
-		//
+		System.out.println("Course Catalog:");
+		for (Course c : courses.values())
+		{
+			c.display();
+		}
+		System.out.println("End Course Catalog");
 	}
 
 	/**

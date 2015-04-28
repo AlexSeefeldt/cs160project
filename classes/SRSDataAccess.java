@@ -81,24 +81,24 @@ public class SRSDataAccess
 			String line = fileScan.nextLine();
 			String[] items = line.split("\t");
 			returnFaculty.findProfessor(items[0]).agreeToTeach(scheduleOfClasses.findSection(items[1]));
-//			scheduleOfClasses.findSection(items[1]).setInstructor(returnFaculty.findProfessor(items[0]));
+			scheduleOfClasses.findSection(items[1]).setInstructor(returnFaculty.findProfessor(items[0]));
 		}
 		fileScan.close();
 		return returnFaculty;
 	}
 
-	public static Student intitializeStudent(String ssn) throws FileNotFoundException, UninitializedScheduleOfClassesException
+	public static Student initializeStudent(String ssn) throws FileNotFoundException, UninitializedScheduleOfClassesException
 	{
 		if(scheduleOfClasses == null)
 			throw new UninitializedScheduleOfClassesException();
-		fileScan = new Scanner(new File( ssn + ".dat"));
+		fileScan = new Scanner(new File("SRSDatFiles\\" + ssn + ".dat"));
 		String line = fileScan.nextLine();
 		String[] items = line.split("\t");
 		Student newStudent = new Student(items[1],items[0],items[2],items[3]);
 		while (fileScan.hasNextLine())
 		{
 			line = fileScan.nextLine();
-			newStudent.addSection(scheduleOfClasses.findSection(line));
+			scheduleOfClasses.findSection(line).enroll(newStudent);
 		}
 		fileScan.close();
 		return newStudent;

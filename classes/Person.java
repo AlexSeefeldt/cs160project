@@ -59,12 +59,10 @@ public abstract class Person
 	 */
 	public void display()
 	{
-		System.out.println("A person's detailed information:");
+		System.out.println("Person:");
 		System.out.println("\tName: " + getName());
 		System.out.println("\tSocial Security No: " + getSsn());
 	}
 
 	public abstract String toString();
-	
-
 }

@@ -26,8 +26,12 @@ public class Faculty
 	 */
 	public void display()
 	{
-		
-		
+		System.out.println("Faculty:");
+		for (Professor p : professors.values())
+		{
+			p.display();
+		}
+		System.out.println("End Faculty");
 	}
 
 	/**

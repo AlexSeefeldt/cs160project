@@ -82,11 +82,9 @@ public class Course
   */
   public void display()
   {
-    System.out.println("Course details:");
-    System.out.println("courseName:"+ this.getCourseName());
-    System.out.println("courseNumber:"+this.getCourseNo());
-    System.out.println("credits:"+this.getCredits());
-
+    System.out.println("Course Name:"+ this.getCourseName());
+    System.out.println("\tNumber:"+this.getCourseNo());
+    System.out.println("\tCredits:"+this.getCredits());
   }
     
   /**

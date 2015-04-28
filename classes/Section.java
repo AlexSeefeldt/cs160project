@@ -25,6 +25,7 @@ public class Section
 	public Section(Course representedCourse)
 	{
 		this.representedCourse = representedCourse;
+		this.enrolledStudents = new HashMap<String,Student>();
 	}
 
 	/**
@@ -229,10 +230,13 @@ public class Section
 	 */
 	private boolean checkPrereqs(Student student)
 	{
-		for (Course c : this.representedCourse.getPrerequisites())
+		if (!this.representedCourse.getPrerequisites().isEmpty())
 		{
-			if(!student.getTranscript().verifyCompletion(c))
-				return false;
+			for (Course c : this.representedCourse.getPrerequisites())
+			{
+				if(!student.getTranscript().verifyCompletion(c))
+					return false;
+			}
 		}
 		return true;
 	}
@@ -246,12 +250,16 @@ public class Section
 	public EnrollmentStatus enroll(Student student){
 		if(this.seatingCapacity == 0)
 			return EnrollmentStatus.secFull;
-		else if (checkPrereqs(student))
+		else if (!checkPrereqs(student))
 			return EnrollmentStatus.prereq;
-		else if (this.enrolledStudents.containsValue(student)) 
+		else if (this.enrolledStudents.containsValue(student))
 			return EnrollmentStatus.prevEnroll;
-		else
+		else 
+		{
+			student.addSection(this);
+			this.enrolledStudents.put(student.getSsn(),student);
 			return EnrollmentStatus.success;			
+		}
 	}
 
 	/**
@@ -259,11 +267,12 @@ public class Section
 	 */
 	public void display()
 	{
-		System.out.println("Section details:");
-	    System.out.println("\tCourse Number:"+ getRepresentedCourse().getCourseNo());
-	    System.out.println("\tSemester:" + getOfferedIn().getSemester());
-	    System.out.println("\tProfessor:"+ getInstructor().getName());
+		System.out.println("Section:");
+	    System.out.println("\tFull Section Number:"+ getFullSectionNo());
+	    System.out.println("\tSemester:" + offeredIn.getSemester());
+	    System.out.println("\tProfessor:"+ instructor.getName());
 	    displayStudentRoster();
+	    System.out.println("End Section");
 	}
 
 	/**
@@ -271,9 +280,18 @@ public class Section
 	 */
 	public void displayStudentRoster()
 	{
-		
-
-
+		System.out.println("Students in this Section:");
+		if (!enrolledStudents.isEmpty())
+		{
+			for (Student s : enrolledStudents.values())
+			{
+				System.out.println(s.getName());
+			}
+		}
+		else
+		{
+			System.out.println("No Students in this Section.");
+		}
 	}
 
 	/**
@@ -283,11 +301,8 @@ public class Section
 	 */
 	public void postGrade(Student student, String grade)
 	{
-		TranscriptEntry tE = new TranscriptEntry();
-		tE.setStudent(student);
-		tE.setSection(this);
+		TranscriptEntry tE = new TranscriptEntry(student,grade,this);
 		tE.setTranscript(student.getTranscript());
-		tE.setGrade(grade);
 		this.assignedGrades.put(student, tE);
 	}
 

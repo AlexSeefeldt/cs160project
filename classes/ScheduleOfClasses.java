@@ -54,10 +54,12 @@ public class ScheduleOfClasses
    */
   public void display()
   {
-    System.out.println("Schedule of Classes for" + getSemester());
-
-
-
+    System.out.println("Schedule of Classes for " + getSemester());
+    for (Section s : sectionsOffered.values())
+    {
+      s.display();
+    }
+    System.out.println("End Schedule of Classes");
   }
 
 
@@ -67,7 +69,7 @@ public class ScheduleOfClasses
    */
   public void addSection(Section section)
   {
-    String key= section.getRepresentedCourse().getCourseNo() + " "+ section.getSectionNo();
+    String key= section.getRepresentedCourse().getCourseNo() + " - "+ section.getSectionNo();
     sectionsOffered.put(key,section);
     section.setOfferedIn(this);
   }

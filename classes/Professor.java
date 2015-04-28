@@ -8,7 +8,7 @@ public class Professor extends Person
 {
 	private String title;
 	private String department;
-	private ArrayList<Section> teaches = new ArrayList<Section>();
+	private ArrayList<Section> teaches;
 
 	/**
 	 * Constructs a <code>Professor</code> with specified name, SSN, title, and department.
@@ -20,8 +20,9 @@ public class Professor extends Person
 	public Professor(String name, String ssn, String title, String department)
 	{
 		super(name, ssn);
-		setTitle(title);
-		setDepartment(department);
+		this.title = title;
+		this.department = department;
+		teaches = new ArrayList<Section>();
 	}
 
 	/**
@@ -66,10 +67,14 @@ public class Professor extends Person
 	public void display()
 	{
 		super.display();
-		System.out.println("Professor's detailed information:");
-		System.out.println("\tProfessor's department:"+ getDepartment());
+		System.out.println("Professor:");
+		System.out.println("\tDepartment:"+ getDepartment());
 		System.out.println("\tTitle:"+ getTitle());
+		System.out.println("Teaching Assignments:");
 		displayTeachingAssignments();
+		System.out.println("End Teaching Assignments");
+		System.out.println("End Professor");
+		System.out.println("End Person");
 	}
 
 	/**
@@ -86,7 +91,18 @@ public class Professor extends Person
 	 */
 	public void displayTeachingAssignments()
 	{
-		System.out.println("Teaching Assignments by " + getName() + ":" );
+		if (!teaches.isEmpty())
+		{
+			for (Section s : teaches)
+			{
+				System.out.println(s.getFullSectionNo());
+			}
+		}
+
+		else
+		{
+			System.out.println("No Teaching Assignments");
+		}
 	}
 
 	/**

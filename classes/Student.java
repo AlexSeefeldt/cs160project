@@ -97,12 +97,15 @@ public class Student extends Person
 	public void display()
 	{
 		super.display();
-		System.out.println("Student's Information:");
+		System.out.println("Student:");
 		System.out.println("\tDegree:" + getDegree());
 		System.out.println("\tMajor:"+ getMajor());
+		System.out.println("Course Schedule:");
 		displayCourseSchedule();
+		System.out.println("End Course Schedule");
 		printTranscript();
-
+		System.out.println("End Student");
+		System.out.println("End Person");
 	}
 
 	/**
@@ -118,7 +121,16 @@ public class Student extends Person
 	 * Displays the <code>Student</code>'s course schedule.
 	 */
 	public void displayCourseSchedule()
-	{//
+	{
+		if (!attends.isEmpty())
+		{
+			for (Section s : attends)
+			{
+				System.out.println(s.getFullSectionNo());
+			}
+		}
+		else
+			System.out.println("Doesn't attend anything");
 	}
 
 	/**
@@ -171,6 +183,6 @@ public class Student extends Person
 	 */
 	public void printTranscript()
 	{
-		getTranscript();	
-}
+			transcript.display();
 	}
+}
