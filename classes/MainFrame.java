@@ -75,10 +75,10 @@ class NewFrameMenuItemListner implements ActionListener
 {  
   public void actionPerformed(ActionEvent event)
   {  
-    JInternalFrame frame = new CheckBoxInternalFrame( "", true, true, true, true );     
-    theMainFrame.add( frame ); // attach internal frame
-    frame.setVisible( true ); // show internal frame
-    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    //JInternalFrame frame = new CheckBoxInternalFrame( "", true, true, true, true );     
+    //theMainFrame.add( frame ); // attach internal frame
+    //frame.setVisible( true ); // show internal frame
+    //frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     
   }
 }
