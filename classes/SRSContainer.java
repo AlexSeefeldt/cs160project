@@ -6,10 +6,12 @@ public class SRSContainer{
 	private static CourseCatalog courseCatalog ;
 	private static ScheduleOfClasses scheduleOfClasses;
 	private static SRSDataAccess srsDataAccess;
+	private static MainFrame mainFrame;
 
-	public SRSContainer()
+	public SRSContainer(MainFrame mainFrame)
 	{
 		srsDataAccess = new SRSDataAccess();
+		this.mainFrame = mainFrame;
 		try{
 		courseCatalog = srsDataAccess.initializeCourseCatalog();
 		scheduleOfClasses = srsDataAccess.initializeScheduleOfClasses("SP2005");
@@ -38,5 +40,10 @@ public class SRSContainer{
 	public SRSDataAccess getSRSDataAccess()
 	{
 		return this.srsDataAccess;
+	}
+
+	public MainFrame getMainFrame()
+	{
+		return this.mainFrame;
 	}
 }

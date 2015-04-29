@@ -57,8 +57,8 @@ public class FindStudentFrame extends JInternalFrame
     getContentPane().add(panel2);
     getContentPane().add(panel3);
     FindStudentHandler handler = new FindStudentHandler();
-    enterButton.addActionListener( handler );
-    cancelButton.addActionListener( handler );
+    enterButton.addActionListener(handler);
+    cancelButton.addActionListener(handler);
   }  
   
   private class FindStudentHandler implements ActionListener  

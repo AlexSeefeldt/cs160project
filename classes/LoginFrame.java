@@ -1,6 +1,5 @@
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -10,6 +9,7 @@ import javax.swing.JInternalFrame;
 import java.util.Scanner;
 import java.awt.GridLayout;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 public class LoginFrame extends JInternalFrame 
@@ -20,13 +20,14 @@ public class LoginFrame extends JInternalFrame
   private JPasswordField passwordField; // password field with text
   private JButton loginButton; //login button
   private JButton cancelButton; //cancel button
-  
-  String userName;
+  private SRSContainer srsCon;
+  String username;
   char[] password;
 
-  public LoginFrame()
+  public LoginFrame(SRSContainer srsCon)
   {
     super("Login", true, true, true, true);
+    this.srsCon = srsCon;
     setLayout( new GridLayout(3,2) );
     userLabel = new JLabel("Username: ");
     passwordLabel = new JLabel("Password: ");
@@ -41,8 +42,8 @@ public class LoginFrame extends JInternalFrame
     getContentPane().add(loginButton);
     getContentPane().add(cancelButton);
     LoginHandler handler = new LoginHandler();
-    loginButton.addActionListener( handler );
-    cancelButton.addActionListener( handler );
+    loginButton.addActionListener(handler);
+    cancelButton.addActionListener(handler);
   }
 
   private class LoginHandler implements ActionListener 
@@ -51,25 +52,45 @@ public class LoginFrame extends JInternalFrame
      {
       if ( event.getSource() == loginButton )
       {
-      	userName = userTextField.getText();
-		password = passwordField.getPassword();
-		boolean confirmed = false;
-		if (userName.equals(password)) {confirmed = true;}
-		if(!confirmed)
-		{
-		  JOptionPane.showMessageDialog( null, "Unsuccessful Login","Failed Login", JOptionPane.ERROR_MESSAGE );
-  		  userTextField.setText("");
-  		  passwordField.setText("");
-		}
-		else
-		{
-		  JOptionPane.showMessageDialog( null, "Successful Login","Successful Login", JOptionPane.INFORMATION_MESSAGE );
-		  userTextField.setText("");
-  		  passwordField.setText("");
-		  setVisible(false);
-		}
+      	username = userTextField.getText();
+	     	password = passwordField.getPassword();
+    		boolean confirmed = false;
+        Student loginStudent = null;
+        try
+        {
+          loginStudent = srsCon.getSRSDataAccess().initializeStudent(new String(password));
+        }
+        catch(FileNotFoundException e)
+        {
+          JOptionPane.showMessageDialog( null, "Bad SSN, try again","Failed Login", JOptionPane.ERROR_MESSAGE );
+          userTextField.setText("");
+          passwordField.setText("");
+        }
+        catch(UninitializedScheduleOfClassesException e)
+        { System.out.println("UninitializedScheduleOfClassesException"); }
+        if (loginStudent != null)
+        {
+            if (loginStudent.getName().substring(loginStudent.getName().indexOf(" ")+1).equals(username))
+            {
+              srsCon.getMainFrame().setLoggedIn(loginStudent);
+              confirmed = true;
+            }
+        }
+        if(!confirmed)
+        {
+          JOptionPane.showMessageDialog( null, "Unsuccessful Login","Failed Login", JOptionPane.ERROR_MESSAGE );
+          userTextField.setText("");
+          passwordField.setText("");
+        }
+        else
+        {
+          JOptionPane.showMessageDialog( null, "Successful Login","Successful Login", JOptionPane.INFORMATION_MESSAGE );
+          userTextField.setText("");
+          passwordField.setText("");
+          setVisible(false);
+        }
 
-//        userName = userTextField.getText();
+//        username = userTextField.getText();
 //        password = passwordField.getPassword();
 //        boolean confirmed = false;
 //        try 
@@ -78,9 +99,9 @@ public class LoginFrame extends JInternalFrame
 //          while(sc.hasNext() && !confirmed)
 //          {
 //            String[] entry = sc.next().split(",");
-//            System.out.println("user: "+userName+ "  entry[0]: "+entry[0]);
+//            System.out.println("user: "+username+ "  entry[0]: "+entry[0]);
 //            System.out.println("password: "+password+ "  entry[1]: "+entry[1]);           
-//             if( Arrays.equals (entry[0].toCharArray(), userName.toCharArray()) && Arrays.equals (entry[1].toCharArray(), password))
+//             if( Arrays.equals (entry[0].toCharArray(), username.toCharArray()) && Arrays.equals (entry[1].toCharArray(), password))
 //             {
 //              confirmed = true;
 //              break;

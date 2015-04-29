@@ -10,7 +10,9 @@ import javax.swing.JDesktopPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.MenuElement;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 
 public class MainFrame extends JFrame
 {
@@ -25,7 +27,7 @@ public class MainFrame extends JFrame
     private ActionListener listener;
     private ArrayList<JInternalFrame> frameList = new ArrayList<JInternalFrame>();
     private Person loggedIn = null;
-    private SRSContainer srsCon = new SRSContainer();
+    private SRSContainer srsCon = new SRSContainer(this);
 
     public MainFrame()
     {
@@ -57,28 +59,37 @@ public class MainFrame extends JFrame
         professorMenu.add(professorFrame2);
         professorMenu.add(professorFrame3);
         professorMenu.add(professorFrame4);
-        bar.add(fileMenu ); // add Add menu to menu bar
-        setJMenuBar( bar ); // set menu bar for this application
+        bar.add(fileMenu); // add Add menu to menu bar
+        setJMenuBar(bar); // set menu bar for this application
         bar.add(studentMenu);
         setJMenuBar(bar);
         bar.add(professorMenu);
         setJMenuBar(bar);
         mainPane = new JDesktopPane(); // create desktop pane
         add(mainPane); // add desktop pane to frame
-        loginFrame = new LoginFrame();
+        loginFrame = new LoginFrame(srsCon);
         frameList.add(loginFrame);
         findStudentFrame = new FindStudentFrame(srsCon);
         frameList.add(findStudentFrame);
         for (JInternalFrame jIF : frameList)
         {
-            jIF.setSize(200,200);
+            jIF.setSize(300,200);
             mainPane.add(jIF);
             jIF.setVisible(false);
             jIF.setDefaultCloseOperation(HIDE_ON_CLOSE);
         }
         listener = new FrameListener();
-        fileFrameItem1.addActionListener(listener);
-        studentFrameItem1.addActionListener(listener);
+        for (MenuElement menu : bar.getSubElements())
+        {
+            for (MenuElement popUp : menu.getSubElements())
+            {
+                for (MenuElement menuElement : popUp.getSubElements())
+                {
+                    JMenuItem menuItem = (JMenuItem)menuElement;
+                    menuItem.addActionListener(listener);
+                }
+            }
+        }
     }
 
     class FrameListener implements ActionListener
@@ -86,18 +97,17 @@ public class MainFrame extends JFrame
         public void actionPerformed(ActionEvent event)
         {
             Object sourceItem = event.getSource();
-            if(sourceItem.equals(fileFrameItem1))
+            if (loggedIn != null)
             {
-                if (loggedIn == null)
-                    loginFrame.setVisible(true);
+                if(sourceItem.equals(studentFrameItem1))
+                    findStudentFrame.setVisible(true);
             }
-            else if(sourceItem.equals(studentFrameItem1))
-                findStudentFrame.setVisible(true);
-            //JInternalFrame frame = new FindStudent( "Find/Display Student", true, true, true, true ); 
-            //frame.pack();
-            //mainPane.add( frame ); // attach internal frame
-            //frame.setVisible( true ); // show internal frame
-            //frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            else if(sourceItem.equals(fileFrameItem1))
+                loginFrame.setVisible(true);
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Log in before attempting a function", "Not Logged In", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
