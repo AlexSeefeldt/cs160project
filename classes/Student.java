@@ -22,9 +22,7 @@ public class Student extends Person
 		super(name, ssn);
 		this.major = major;
 		this.degree = degree;
-		//might need to change this Transcript constructor
 		this.transcript = new Transcript(this);
-		//is this a proper ArrayList constructor?
 		this.attends = new ArrayList<Section>();
 	}
 

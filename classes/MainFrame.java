@@ -24,11 +24,8 @@ public class MainFrame extends JFrame
     private JInternalFrame loginFrame, findStudentFrame;
     private ActionListener listener;
     private ArrayList<JInternalFrame> frameList = new ArrayList<JInternalFrame>();
-    private Faculty faculty;
-    private CourseCatalog courseCatalog ;
-    private ScheduleOfClasses scheduleOfClasses;
     private Person loggedIn = null;
-    private SRSDataAccess srsDataAccess;
+    private SRSContainer srsCon = new SRSContainer();
 
     public MainFrame()
     {
@@ -70,7 +67,7 @@ public class MainFrame extends JFrame
         add(mainPane); // add desktop pane to frame
         loginFrame = new LoginFrame();
         frameList.add(loginFrame);
-        findStudentFrame = new FindStudentFrame();
+        findStudentFrame = new FindStudentFrame(srsCon);
         frameList.add(findStudentFrame);
         for (JInternalFrame jIF : frameList)
         {
@@ -79,7 +76,6 @@ public class MainFrame extends JFrame
             jIF.setVisible(false);
             jIF.setDefaultCloseOperation(HIDE_ON_CLOSE);
         }
-        // set up listener for newFrame menu item
         listener = new FrameListener();
         fileFrameItem1.addActionListener(listener);
         studentFrameItem1.addActionListener(listener);

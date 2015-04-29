@@ -262,6 +262,11 @@ public class Section
 		}
 	}
 
+	public void directEnroll(Student student){
+		student.addSection(this);
+		this.enrolledStudents.put(student.getSsn(),student);
+	}
+
 	/**
 	 * Displays the class.
 	 */

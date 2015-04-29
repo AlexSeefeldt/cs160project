@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.PrintWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -98,9 +99,20 @@ public class SRSDataAccess
 		while (fileScan.hasNextLine())
 		{
 			line = fileScan.nextLine();
-			scheduleOfClasses.findSection(line).enroll(newStudent);
+			scheduleOfClasses.findSection(line).directEnroll(newStudent);
 		}
 		fileScan.close();
 		return newStudent;
+	}
+
+	public static void persistStudent(Student student) throws FileNotFoundException
+	{
+		PrintWriter print = new PrintWriter(new File("SRSDatFiles\\" + student.getSsn() + ".dat"));
+		print.println(student.getSsn()+"\t"+student.getName()+"\t"+student.getMajor()+"\t"+student.getDegree());
+		for (Section s : student.getEnrolledSections())
+		{
+			print.println(s.getFullSectionNo());
+		}
+		print.close();
 	}
 }

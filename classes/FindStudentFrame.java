@@ -4,94 +4,105 @@ import javax.swing.JFrame;
 import javax.swing.JLabel; 
 import javax.swing.JButton; 
 import javax.swing.JTextField; 
-import javax.swing.JPasswordField; 
-import javax.swing.JOptionPane; 
-import javax.swing.JInternalFrame; 
+import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import java.util.Scanner; 
 import java.awt.GridLayout; 
+import javax.swing.BoxLayout;
 import java.io.File; 
+import java.io.FileNotFoundException;
 import java.util.Arrays; 
 
 public class FindStudentFrame extends JInternalFrame  
 { 
-  private JLabel SSNLabel; //user label 
-  private JTextField SSNTextField; // user text filed 
-  private JButton enterButton; //login button 
-  private JButton cancelButton; //cancel button 
+  private JLabel studentName, studentMajor, studentDegree; 
+  private JTextField sSnTextField;
+  private JButton enterButton;
+  private JButton cancelButton;
+  private SRSContainer srsCon;
+  private JPanel panel1, panel2, panel3;
+  private JTextArea scheduleArea;
   
-  String userName; 
-  char[] password;
-  
-  public FindStudentFrame() 
+  public FindStudentFrame(SRSContainer srsCon) 
   { 
-    super("Find Student", true, true, true, true ); 
-    
-    setLayout( new GridLayout(2,2) );  
-    
-    SSNLabel = new JLabel("SSN: "); 
-    
-    SSNTextField = new JTextField( 10 );  
-    
-    enterButton = new JButton("Enter"); 
-    cancelButton = new JButton("Cancel"); 
-    
-    getContentPane().add(SSNLabel); 
-    getContentPane().add(SSNTextField); 
-    
-    
-    getContentPane().add(enterButton); 
-    getContentPane().add(cancelButton); 
-    
-    
-    LoginHandler handler = new LoginHandler(); 
-    enterButton.addActionListener( handler ); 
-    cancelButton.addActionListener( handler ); 
+    super("Find Student", true, true, true, true );
+    this.srsCon = srsCon;
+    setLayout( new GridLayout(3,1) );
+    panel1 = new JPanel(new GridLayout(2,2));
+    panel2 = new JPanel(new GridLayout(3,2));
+    panel3 = new JPanel(new GridLayout(1,1));
+    sSnTextField = new JTextField( 10 );
+    enterButton = new JButton("Enter");
+    cancelButton = new JButton("Cancel");
+    panel1.add(new JLabel("SSN: "));
+    panel1.add(sSnTextField);
+    panel1.add(enterButton);
+    panel1.add(cancelButton);
+    studentName = new JLabel();
+    studentMajor = new JLabel();
+    studentDegree = new JLabel();
+    panel2.add(new JLabel("Name: "));
+    panel2.add(studentName);
+    panel2.add(new JLabel("Major: "));
+    panel2.add(studentMajor);
+    panel2.add(new JLabel("Degree: "));
+    panel2.add(studentDegree);
+    scheduleArea = new JTextArea(10, 30);
+    scheduleArea.setEditable(false);
+    scheduleArea.setText("This Student's Classes:"+"\n");
+    panel3.add(scheduleArea);
+    getContentPane().add(panel1);
+    getContentPane().add(panel2);
+    getContentPane().add(panel3);
+    FindStudentHandler handler = new FindStudentHandler();
+    enterButton.addActionListener( handler );
+    cancelButton.addActionListener( handler );
   }  
   
-  private class LoginHandler implements ActionListener  
+  private class FindStudentHandler implements ActionListener  
   { 
     // process textfield events 
     public void actionPerformed( ActionEvent event ) 
-    { 
+    {
       if ( event.getSource() == enterButton ) 
-      { 
-        userName = SSNTextField.getText(); 
+      {
+        studentName.setText("");
+        studentMajor.setText("");
+        studentDegree.setText("");
+        scheduleArea.setText("This Student's Classes:"+"\n");
+        Student studentGotten = null;
+        try
+        {
+          studentGotten = srsCon.getSRSDataAccess().initializeStudent(sSnTextField.getText());
+        }
+        catch(FileNotFoundException e)
+        {
+          JOptionPane.showMessageDialog( null, "The SSN you provided does not correspond to a student in our system.", "No Such Student", 
+                                         JOptionPane.ERROR_MESSAGE );
+          sSnTextField.setText("");
+        }
+        catch(UninitializedScheduleOfClassesException e)
+        { System.out.println("UninitializedScheduleOfClassesException"); }
+        if (studentGotten != null)
+        {
+          studentName.setText(studentGotten.getName());
+          studentMajor.setText(studentGotten.getMajor());
+          studentDegree.setText(studentGotten.getDegree());
+          for (Section s : studentGotten.getEnrolledSections())
+          {
+            scheduleArea.append(s.getRepresentedCourse().getCourseNo()+" "+s.getRepresentedCourse().getCourseName()+": "+s.getDayOfWeek()+" "+s.getTimeOfDay()+"\n");
+          }
+        }
 
-        boolean foundMatch = false; 
-        try 
-        { 
-          Scanner sc = new Scanner(new File("logins.txt")); 
-          while(sc.hasNext() && !foundMatch) 
-          { 
-            String[] entry = sc.next().split(","); 
-            System.out.println("user: "+userName+ "  entry[0]: "+entry[0]); 
-            System.out.println("password: "+password+ "  entry[1]: "+entry[1]); 
-            
-            if( Arrays.equals (entry[0].toCharArray(), userName.toCharArray()) && Arrays.equals (entry[1].toCharArray(), password)) 
-            { 
-              foundMatch = true; 
-              break; 
-            }              
-          } 
-          if(!foundMatch) 
-          { 
-            JOptionPane.showMessageDialog( null, "Unsuccessful Login","Failed Login", JOptionPane.ERROR_MESSAGE ); 
-            SSNTextField.setText(""); 
-
-          } 
-          else 
-          { 
-            JOptionPane.showMessageDialog( null, "Successful Login","Successful Login", JOptionPane.INFORMATION_MESSAGE ); 
-            setClosed( true );  
-          } 
-        } 
-        catch(Exception e) 
-        { 
-          e.printStackTrace(); 
-        } 
       } 
       else if( event.getSource() == cancelButton ) 
-      { 
+      {
+        studentName.setText("");
+        studentMajor.setText("");
+        studentDegree.setText("");
+        scheduleArea.setText("This Student's Classes:"+"\n");
         setVisible(false); 
       } 
     }  

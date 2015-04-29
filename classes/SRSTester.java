@@ -14,9 +14,9 @@ public class SRSTester{
 			courseCatalog = srsDataAccess.initializeCourseCatalog();
 			scheduleOfClasses = srsDataAccess.initializeScheduleOfClasses("SP2005");
 			faculty = srsDataAccess.initializeFaculty();
-			student1 = srsDataAccess.initializeStudent("111-11-1111");
-			student2 = srsDataAccess.initializeStudent("222-22-2222");
-			student3 = srsDataAccess.initializeStudent("333-33-3333");
+			student1 = srsDataAccess.initializeStudent("201-30-4565");
+			student2 = srsDataAccess.initializeStudent("894-66-8153");
+			student3 = srsDataAccess.initializeStudent("995-64-7152");
 		}
 		catch(FileNotFoundException e){System.out.println("FileNotFound"); e.printStackTrace();}
 		catch(UninitializedCourseCatalogException e){System.out.println("CourseCatalog not yet initialized");}
