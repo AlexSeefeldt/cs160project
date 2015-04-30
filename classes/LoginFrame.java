@@ -62,7 +62,7 @@ public class LoginFrame extends JInternalFrame
         }
         catch(FileNotFoundException e)
         {
-          JOptionPane.showMessageDialog( null, "Bad SSN, try again","Failed Login", JOptionPane.ERROR_MESSAGE );
+          JOptionPane.showMessageDialog(null, "Bad SSN, try again","Failed Login", JOptionPane.ERROR_MESSAGE);
           userTextField.setText("");
           passwordField.setText("");
         }
@@ -76,15 +76,15 @@ public class LoginFrame extends JInternalFrame
               confirmed = true;
             }
         }
-        if(!confirmed)
+        if (!confirmed && !userTextField.getText().equals(""))
         {
-          JOptionPane.showMessageDialog( null, "Unsuccessful Login","Failed Login", JOptionPane.ERROR_MESSAGE );
+          JOptionPane.showMessageDialog(null, "Unsuccessful Login","Failed Login", JOptionPane.ERROR_MESSAGE);
           userTextField.setText("");
           passwordField.setText("");
         }
-        else
+        if (confirmed)
         {
-          JOptionPane.showMessageDialog( null, "Successful Login","Successful Login", JOptionPane.INFORMATION_MESSAGE );
+          JOptionPane.showMessageDialog(null, "Successful Login","Successful Login", JOptionPane.INFORMATION_MESSAGE);
           userTextField.setText("");
           passwordField.setText("");
           setVisible(false);

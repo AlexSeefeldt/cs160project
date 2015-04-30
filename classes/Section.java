@@ -97,7 +97,7 @@ public class Section
 	 */
 	public String getFullSectionNo()
 	{
-		return this.representedCourse.getCourseNo()+"-"+this.sectionNo;
+		return this.representedCourse.getCourseNo()+" - "+this.sectionNo;
 	}
 
 	/**

@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class FindStudentFrame extends JInternalFrame  
 { 
   private JLabel studentName, studentMajor, studentDegree; 
-  private JTextField sSnTextField;
+  private JTextField ssnTextField;
   private JButton enterButton;
   private JButton cancelButton;
   private SRSContainer srsCon;
@@ -33,11 +33,11 @@ public class FindStudentFrame extends JInternalFrame
     panel1 = new JPanel(new GridLayout(2,2));
     panel2 = new JPanel(new GridLayout(3,2));
     panel3 = new JPanel(new GridLayout(1,1));
-    sSnTextField = new JTextField( 10 );
+    ssnTextField = new JTextField( 10 );
     enterButton = new JButton("Enter");
     cancelButton = new JButton("Cancel");
     panel1.add(new JLabel("SSN: "));
-    panel1.add(sSnTextField);
+    panel1.add(ssnTextField);
     panel1.add(enterButton);
     panel1.add(cancelButton);
     studentName = new JLabel();
@@ -75,13 +75,13 @@ public class FindStudentFrame extends JInternalFrame
         Student studentGotten = null;
         try
         {
-          studentGotten = srsCon.getSRSDataAccess().initializeStudent(sSnTextField.getText());
+          studentGotten = srsCon.getSRSDataAccess().initializeStudent(ssnTextField.getText());
         }
         catch(FileNotFoundException e)
         {
           JOptionPane.showMessageDialog( null, "The SSN you provided does not correspond to a student in our system.", "No Such Student", 
                                          JOptionPane.ERROR_MESSAGE );
-          sSnTextField.setText("");
+          ssnTextField.setText("");
         }
         catch(UninitializedScheduleOfClassesException e)
         { System.out.println("UninitializedScheduleOfClassesException"); }
@@ -103,7 +103,8 @@ public class FindStudentFrame extends JInternalFrame
         studentMajor.setText("");
         studentDegree.setText("");
         scheduleArea.setText("This Student's Classes:"+"\n");
-        setVisible(false); 
+        ssnTextField.setText("");
+        setVisible(false);
       } 
     }  
   }

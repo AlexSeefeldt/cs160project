@@ -13,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.MenuElement;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import java.io.FileNotFoundException;
 
 public class MainFrame extends JFrame
 {
@@ -26,7 +27,7 @@ public class MainFrame extends JFrame
     private JInternalFrame loginFrame, findStudentFrame;
     private ActionListener listener;
     private ArrayList<JInternalFrame> frameList = new ArrayList<JInternalFrame>();
-    private Person loggedIn = null;
+    private Student loggedIn = null;
     private SRSContainer srsCon = new SRSContainer(this);
 
     public MainFrame()
@@ -73,7 +74,7 @@ public class MainFrame extends JFrame
         frameList.add(findStudentFrame);
         for (JInternalFrame jIF : frameList)
         {
-            jIF.setSize(300,200);
+            jIF.setSize(200,300);
             mainPane.add(jIF);
             jIF.setVisible(false);
             jIF.setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -99,8 +100,13 @@ public class MainFrame extends JFrame
             Object sourceItem = event.getSource();
             if (loggedIn != null)
             {
-                if(sourceItem.equals(studentFrameItem1))
+                if (sourceItem.equals(studentFrameItem1))
                     findStudentFrame.setVisible(true);
+
+                else if (sourceItem.equals(fileFrameItem2))
+                {
+                    logOff();
+                }
             }
             else if(sourceItem.equals(fileFrameItem1))
                 loginFrame.setVisible(true);
@@ -111,9 +117,28 @@ public class MainFrame extends JFrame
         }
     }
 
-    public void setLoggedIn(Person loggedIn)
+    public void setLoggedIn(Student loggedIn)
     {
         this.loggedIn = loggedIn;
+    }
+
+    public void logOff()
+    {
+        int option = JOptionPane.showOptionDialog(null, "Are you sure you want to log off?","Logoff", 
+                                                  JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+        if (option == JOptionPane.YES_OPTION)
+        {
+            try
+            {
+                srsCon.getSRSDataAccess().persistStudent(loggedIn);
+                loggedIn = null;
+                JOptionPane.showMessageDialog(null, "Logoff Successful","Logoff", JOptionPane.INFORMATION_MESSAGE);
+            }
+            catch(FileNotFoundException e)
+            {
+                JOptionPane.showMessageDialog(null, "There was an error logging off.","Failed Logoff", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     public static void main( String[] args )
