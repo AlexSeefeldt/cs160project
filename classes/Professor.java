@@ -61,6 +61,11 @@ public class Professor extends Person
 		return this.department;
 	}
 
+	public ArrayList<Section> getTeachingAssignments()
+	{
+		return this.teaches;
+	}
+
 	/**
 	 * Displays the <code>Professor</code>.
 	 */

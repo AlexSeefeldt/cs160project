@@ -23,8 +23,8 @@ public class MainFrame extends JFrame
     private JMenuItem fileFrameItem1, fileFrameItem2, fileFrameItem3,
                       studentFrameItem1, studentFrameItem2, studentFrameItem3,
                       studentFrameItem4, studentFrameItem5,
-                      professorFrame1, professorFrame2, professorFrame3, professorFrame4;
-    private JInternalFrame loginFrame, findStudentFrame;
+                      professorFrameItem1, professorFrameItem2, professorFrameItem3, professorFrameItem4;
+    private JInternalFrame loginFrame, findStudentFrame, findProfessorFrame;
     private ActionListener listener;
     private ArrayList<JInternalFrame> frameList = new ArrayList<JInternalFrame>();
     private Student loggedIn = null;
@@ -44,10 +44,10 @@ public class MainFrame extends JFrame
         studentFrameItem3 = new JMenuItem("Add Section");
         studentFrameItem4 = new JMenuItem("Drop Section");
         studentFrameItem5 = new JMenuItem("View Transcript");
-        professorFrame1 =   new JMenuItem("Find Professor");
-        professorFrame2 =   new JMenuItem("Displaying Teaching Assignments");
-        professorFrame3 =   new JMenuItem("Display Student Roster");
-        professorFrame4 =   new JMenuItem("Agree to teach a course");                                        
+        professorFrameItem1 =   new JMenuItem("Find Professor");
+        professorFrameItem2 =   new JMenuItem("Displaying Teaching Assignments");
+        professorFrameItem3 =   new JMenuItem("Display Student Roster");
+        professorFrameItem4 =   new JMenuItem("Agree to teach a course");                                        
         fileMenu.add(fileFrameItem1);
         fileMenu.add(fileFrameItem2);
         fileMenu.add(fileFrameItem3);
@@ -56,10 +56,10 @@ public class MainFrame extends JFrame
         studentMenu.add(studentFrameItem3);
         studentMenu.add(studentFrameItem4);
         studentMenu.add(studentFrameItem5);
-        professorMenu.add(professorFrame1);
-        professorMenu.add(professorFrame2);
-        professorMenu.add(professorFrame3);
-        professorMenu.add(professorFrame4);
+        professorMenu.add(professorFrameItem1);
+        professorMenu.add(professorFrameItem2);
+        professorMenu.add(professorFrameItem3);
+        professorMenu.add(professorFrameItem4);
         bar.add(fileMenu); // add Add menu to menu bar
         setJMenuBar(bar); // set menu bar for this application
         bar.add(studentMenu);
@@ -72,9 +72,11 @@ public class MainFrame extends JFrame
         frameList.add(loginFrame);
         findStudentFrame = new FindStudentFrame(srsCon);
         frameList.add(findStudentFrame);
+        findProfessorFrame = new FindProfessorFrame(srsCon);
+        frameList.add(findProfessorFrame);
         for (JInternalFrame jIF : frameList)
         {
-            jIF.setSize(200,300);
+            jIF.setSize(300,300);
             mainPane.add(jIF);
             jIF.setVisible(false);
             jIF.setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -102,6 +104,8 @@ public class MainFrame extends JFrame
             {
                 if (sourceItem.equals(studentFrameItem1))
                     findStudentFrame.setVisible(true);
+                else if (sourceItem.equals(professorFrameItem1))
+                    findProfessorFrame.setVisible(true);
 
                 else if (sourceItem.equals(fileFrameItem2))
                 {
