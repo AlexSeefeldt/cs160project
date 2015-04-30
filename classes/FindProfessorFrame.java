@@ -19,8 +19,7 @@ public class FindProfessorFrame extends JInternalFrame
 { 
   private JLabel professorName, professorTitle, professorDepartment; 
   private JTextField ssnTextField;
-  private JButton enterButton;
-  private JButton cancelButton;
+  private JButton enterButton, cancelButton;
   private SRSContainer srsCon;
   private JPanel panel1, panel2, panel3;
   private JTextArea scheduleArea;

@@ -22,9 +22,9 @@ public class MainFrame extends JFrame
     private JMenu fileMenu, studentMenu, professorMenu;
     private JMenuItem fileFrameItem1, fileFrameItem2, fileFrameItem3,
                       studentFrameItem1, studentFrameItem2, studentFrameItem3,
-                      studentFrameItem4, studentFrameItem5,
-                      professorFrameItem1, professorFrameItem2, professorFrameItem3, professorFrameItem4;
-    private JInternalFrame loginFrame, findStudentFrame, findProfessorFrame;
+                      studentFrameItem4, professorFrameItem1, professorFrameItem2,
+                      professorFrameItem3, professorFrameItem4;
+    private JInternalFrame loginFrame, findStudentFrame, findProfessorFrame, addDropSectionFrame;
     private ActionListener listener;
     private ArrayList<JInternalFrame> frameList = new ArrayList<JInternalFrame>();
     private Student loggedIn = null;
@@ -41,9 +41,8 @@ public class MainFrame extends JFrame
         fileFrameItem3 =    new JMenuItem("Close"); 
         studentFrameItem1 = new JMenuItem("Find Student");
         studentFrameItem2 = new JMenuItem("Display Course Schedule");
-        studentFrameItem3 = new JMenuItem("Add Section");
-        studentFrameItem4 = new JMenuItem("Drop Section");
-        studentFrameItem5 = new JMenuItem("View Transcript");
+        studentFrameItem3 = new JMenuItem("Add/Drop Section");
+        studentFrameItem4 = new JMenuItem("View Transcript");
         professorFrameItem1 =   new JMenuItem("Find Professor");
         professorFrameItem2 =   new JMenuItem("Displaying Teaching Assignments");
         professorFrameItem3 =   new JMenuItem("Display Student Roster");
@@ -55,7 +54,6 @@ public class MainFrame extends JFrame
         studentMenu.add(studentFrameItem2);
         studentMenu.add(studentFrameItem3);
         studentMenu.add(studentFrameItem4);
-        studentMenu.add(studentFrameItem5);
         professorMenu.add(professorFrameItem1);
         professorMenu.add(professorFrameItem2);
         professorMenu.add(professorFrameItem3);
@@ -66,6 +64,9 @@ public class MainFrame extends JFrame
         setJMenuBar(bar);
         bar.add(professorMenu);
         setJMenuBar(bar);
+        // DELETE THE FOLLOWING 2 LINES TO REMOVE THE LOGIN CHEAT
+        try{ loggedIn = srsCon.getSRSDataAccess().initializeStudent("995-64-7152"); }
+        catch (FileNotFoundException e){}
         mainPane = new JDesktopPane(); // create desktop pane
         add(mainPane); // add desktop pane to frame
         loginFrame = new LoginFrame(srsCon);
@@ -74,6 +75,8 @@ public class MainFrame extends JFrame
         frameList.add(findStudentFrame);
         findProfessorFrame = new FindProfessorFrame(srsCon);
         frameList.add(findProfessorFrame);
+        addDropSectionFrame = new AddDropSectionFrame(srsCon);
+        frameList.add(addDropSectionFrame);
         for (JInternalFrame jIF : frameList)
         {
             jIF.setSize(300,300);
@@ -106,6 +109,8 @@ public class MainFrame extends JFrame
                     findStudentFrame.setVisible(true);
                 else if (sourceItem.equals(professorFrameItem1))
                     findProfessorFrame.setVisible(true);
+                else if (sourceItem.equals(studentFrameItem3))
+                    addDropSectionFrame.setVisible(true);
 
                 else if (sourceItem.equals(fileFrameItem2))
                 {
@@ -126,6 +131,11 @@ public class MainFrame extends JFrame
         this.loggedIn = loggedIn;
     }
 
+    public Student getLoggedIn()
+    {
+        return this.loggedIn;
+    }
+
     public void logOff()
     {
         int option = JOptionPane.showOptionDialog(null, "Are you sure you want to log off?","Logoff", 
@@ -136,6 +146,10 @@ public class MainFrame extends JFrame
             {
                 srsCon.getSRSDataAccess().persistStudent(loggedIn);
                 loggedIn = null;
+                for (JInternalFrame jIF : frameList)
+                {
+                    jIF.setVisible(false);
+                }
                 JOptionPane.showMessageDialog(null, "Logoff Successful","Logoff", JOptionPane.INFORMATION_MESSAGE);
             }
             catch(FileNotFoundException e)

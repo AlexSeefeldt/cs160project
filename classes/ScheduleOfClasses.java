@@ -1,4 +1,5 @@
-import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.ArrayList;
 
 /**
  * this class models the schedule of classes
@@ -7,7 +8,7 @@ import java.util.HashMap;
 public class ScheduleOfClasses
 {
 	private String semester;
-  private HashMap<String, Section> sectionsOffered = new HashMap<String, Section>();
+  private TreeMap<String, Section> sectionsOffered = new TreeMap<String, Section>();
 
   /**
    * The constructor initializes the string variable
@@ -42,9 +43,9 @@ public class ScheduleOfClasses
    * Gets <code>SectionsOffered</code> in course
    * @return <code>sectionOffered</code> value as an array
    */
-  public Object[] getSectionsOffered()
+  public ArrayList<Section> getSectionsOffered()
   {
-    return this.sectionsOffered.values().toArray();
+    return new ArrayList<Section>(this.sectionsOffered.values());
   }
 
 

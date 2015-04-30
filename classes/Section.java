@@ -207,8 +207,7 @@ public class Section
      */
 	public String toString()
 	{
-		return "Section number: "+sectionNo+" Day of week: "+dayOfWeek+" Time of day: "+timeOfDay+" Room number: "+room+" Seating Capacity: "+
-			   seatingCapacity+" Represented course"+representedCourse+" Instructor: "+instructor+"Offered in:"+offeredIn;
+		return this.representedCourse.getCourseNo()+" - "+this.sectionNo;
 	}
 
 	/**
