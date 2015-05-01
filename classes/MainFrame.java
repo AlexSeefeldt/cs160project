@@ -25,6 +25,7 @@ public class MainFrame extends JFrame
                       studentFrameItem4, professorFrameItem1, professorFrameItem2;
     private JInternalFrame loginFrame, findStudentFrame, findProfessorFrame,
                            addDropSectionFrame, teachingAssignmentsFrame;
+                           //studentRosterFrame;
     private ActionListener listener;
     private ArrayList<JInternalFrame> frameList = new ArrayList<JInternalFrame>();
     private Student loggedIn = null;
@@ -75,6 +76,8 @@ public class MainFrame extends JFrame
         frameList.add(addDropSectionFrame);
         teachingAssignmentsFrame = new TeachingAssignmentsFrame(srsCon);
         frameList.add(teachingAssignmentsFrame);
+        //studentRosterFrame = new StudentRosterFrame(srsCon);
+        //frameList.add(studentRosterFrame);
         for (JInternalFrame jIF : frameList)
         {
             jIF.setSize(325,300);
@@ -134,6 +137,8 @@ public class MainFrame extends JFrame
                 }
                 else if (sourceItem.equals(studentFrameItem3))
                     addDropSectionFrame.setVisible(true);
+                //else if (sourceItem.equals(studentFrameItem4))
+                //    studentRosterFrame.setVisible(true);
                 else if (sourceItem.equals(professorFrameItem1))
                     findProfessorFrame.setVisible(true);
                 else if (sourceItem.equals(professorFrameItem2))

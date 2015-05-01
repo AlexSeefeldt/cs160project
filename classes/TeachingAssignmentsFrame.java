@@ -74,9 +74,10 @@ public class TeachingAssignmentsFrame extends JInternalFrame
         }
         JOptionPane.showMessageDialog(null, ""+displayString, "Display Teaching Assignments", JOptionPane.INFORMATION_MESSAGE);
       } 
-      else if( event.getSource() == cancelButton ) 
+      else if(event.getSource() == cancelButton) 
       {
         setVisible(false);
+        profArea.clearSelection();
       } 
     }  
   }

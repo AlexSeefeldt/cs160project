@@ -64,7 +64,7 @@ public class AddDropSectionFrame extends JInternalFrame
     dropButton.addActionListener(handler);
     viewCourseButton.addActionListener(handler);
     cancelButton.addActionListener(handler);
-    ListFocusHandler listHandler = new ListFocusHandler();
+    ListFocusHandler listHandler = new ListFocusHandler(inArea,outArea);
     inArea.addFocusListener(listHandler);
     outArea.addFocusListener(listHandler);
   } 
@@ -97,7 +97,7 @@ public class AddDropSectionFrame extends JInternalFrame
     updateLists();
   }
   
-  private class AddDropSectionHandler implements ActionListener  
+  private class AddDropSectionHandler implements ActionListener 
   {
     public void actionPerformed( ActionEvent event ) 
     {
@@ -159,6 +159,8 @@ public class AddDropSectionFrame extends JInternalFrame
         else if (!outArea.isSelectionEmpty())
           JOptionPane.showMessageDialog(null, "Please select a Section from the left-side list to drop it from your schedule.",
                                         "Wrong List", JOptionPane.ERROR_MESSAGE);
+        if (dropSection != null)
+        {   
         srsCon.getMainFrame().getLoggedIn().getEnrolledSections().remove(dropSection);
         dropSection.dropStudent(srsCon.getMainFrame().getLoggedIn());
         int i = 0;
@@ -166,6 +168,7 @@ public class AddDropSectionFrame extends JInternalFrame
           i++;
         classList.add(i, dropSection);
         updateLists(i);
+        }
       }
       else if(event.getSource() == cancelButton) 
       {
@@ -173,20 +176,6 @@ public class AddDropSectionFrame extends JInternalFrame
         outArea.clearSelection();
         setVisible(false);
       } 
-    }
-
-  }
-
-  private class ListFocusHandler implements FocusListener
-  {
-    public void focusLost(FocusEvent event) {}
-
-    public void focusGained(FocusEvent event)
-    {
-      if (event.getSource() == inArea)
-        outArea.clearSelection();
-      else if (event.getSource() == outArea)
-        inArea.clearSelection();
     }
   }
 }  

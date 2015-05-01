@@ -1,5 +1,5 @@
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
 import javax.swing.JFrame;
@@ -23,7 +23,10 @@ public class StudentRosterFrame extends JInternalFrame
 {
   private SRSContainer srsCon;
   private JPanel panel1;
-  private JList<Section> sectionArea, studentArea;
+  private JList<Section> sectionArea;
+  private JList<Student> studentArea;
+  ArrayList<Student> studentList;
+  Student[] studentArray;
   
   public StudentRosterFrame(SRSContainer srsCon) 
   { 
@@ -36,112 +39,30 @@ public class StudentRosterFrame extends JInternalFrame
     sectionArea.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     panel1.add(new JScrollPane(sectionArea));
     sectionArea.setSelectedIndex(0);
-    studentList = sectionArea.getSelectedValue().;
-    Section[] studentArray = studentList.toArray(new Section[studentList.size()]);
-    studentArea = new JList<Section>(studentArray);
+    studentList = sectionArea.getSelectedValue().getEnrolledStudents();
+    Student[] studentArray = studentList.toArray(new Student[studentList.size()]);
+    studentArea = new JList<Student>(studentArray);
     studentArea.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     panel1.add(new JScrollPane(studentArea));
     getContentPane().add(panel1);
-    StudentRosterHandler handler = new StudentRosterHandler();
-    addButton.addActionListener(handler);
-    dropButton.addActionListener(handler);
-    viewCourseButton.addActionListener(handler);
-    cancelButton.addActionListener(handler);
-    ListFocusHandler listHandler = new ListFocusHandler();
+    SectionListHandler handler = new SectionListHandler();
+    sectionArea.addListSelectionListener(handler);
+    ListFocusHandler listHandler = new ListFocusHandler(sectionArea,studentArea);
     sectionArea.addFocusListener(listHandler);
     studentArea.addFocusListener(listHandler);
   }
   
-  private class StudentRosterHandler implements ActionListener  
+  public class SectionListHandler implements ListSelectionListener
   {
-    public void actionPerformed( ActionEvent event ) 
+    public void valueChanged(ListSelectionEvent event)
     {
-      if ( event.getSource() == viewCourseButton ) 
+      studentList = sectionArea.getSelectedValue().getEnrolledStudents();
+      for (Student s : studentList)
       {
-        Section viewSection = null;
-        if (!sectionArea.isSelectionEmpty())
-          viewSection = sectionArea.getSelectedValue();
-        else if (!studentArea.isSelectionEmpty())
-          viewSection = studentArea.getSelectedValue();
-        StringBuilder displayString = new StringBuilder(viewSection+"\n");
-        displayString.append(viewSection.getRepresentedCourse().getCourseName()+"\n");
-        displayString.append("Taught by "+viewSection.getInstructor().getName()+"\n");
-        switch (viewSection.getDayOfWeek().charAt(0))
-        {
-          case 'M': displayString.append("Monday "+viewSection.getTimeOfDay()+"\n");
-                    break;
-          case 'T': displayString.append("Tuesday "+viewSection.getTimeOfDay()+"\n");
-                    break;
-          case 'W': displayString.append("Wednesday "+viewSection.getTimeOfDay()+"\n");
-                    break;
-          case 'R': displayString.append("Thursday "+viewSection.getTimeOfDay()+"\n");
-                    break;
-          case 'F': displayString.append("Friday "+viewSection.getTimeOfDay()+"\n");
-                    break;
-          default:  displayString.append(viewSection.getTimeOfDay()+"\n");
-                    break;
-        }
-        displayString.append(viewSection.getRoom()+": "+(viewSection.getSeatingCapacity()-viewSection.getTotalEnrollment())+
-                             "/"+viewSection.getSeatingCapacity()+" seats available");
-        JOptionPane.showMessageDialog(null, ""+displayString, ""+viewSection, JOptionPane.INFORMATION_MESSAGE);
+        System.out.println(s);
       }
-      else if(event.getSource() == addButton)
-      {
-        Section addSection = null;
-        if (!sectionArea.isSelectionEmpty())
-          JOptionPane.showMessageDialog(null, "Please select a Section from the right-side list to add it to your schedule.",
-                                        "Wrong List", JOptionPane.ERROR_MESSAGE);
-        else if (!studentArea.isSelectionEmpty())
-          addSection = studentArea.getSelectedValue();
-        if (addSection != null)
-        {
-          EnrollmentStatus status = addSection.enroll(srsCon.getMainFrame().getLoggedIn());
-          if (status == EnrollmentStatus.SUCCESS)
-          {
-            JOptionPane.showMessageDialog(null, status.getValue(), "Enrollment Successful", JOptionPane.INFORMATION_MESSAGE);
-            classList.remove(addSection);
-            updateLists(-1);
-          }
-          else
-            JOptionPane.showMessageDialog(null, status.getValue(), "Enrollment Failed", JOptionPane.ERROR_MESSAGE);
-        }
-      }
-      else if (event.getSource() == dropButton)
-      {
-        Section dropSection = null;
-        if (!sectionArea.isSelectionEmpty())
-          dropSection = sectionArea.getSelectedValue();
-        else if (!studentArea.isSelectionEmpty())
-          JOptionPane.showMessageDialog(null, "Please select a Section from the left-side list to drop it from your schedule.",
-                                        "Wrong List", JOptionPane.ERROR_MESSAGE);
-        srsCon.getMainFrame().getLoggedIn().getEnrolledSections().remove(dropSection);
-        dropSection.dropStudent(srsCon.getMainFrame().getLoggedIn());
-        int i = 0;
-        while(dropSection.toString().compareTo(classList.get(i).toString()) > 0)
-          i++;
-        classList.add(i, dropSection);
-        updateLists(i);
-      }
-      else if(event.getSource() == cancelButton) 
-      {
-        sectionArea.clearSelection();
-        studentArea.clearSelection();
-        setVisible(false);
-      } 
-    }
-
-  }
-
-  private class ListFocusHandler implements FocusListener
-  {
-    public void focusLost(FocusEvent event) {}
-
-    public void focusGained(FocusEvent event)
-    {
-      if (event.getSource() == inArea)
-        outArea.clearSelection();
-      else if (event.getSource() == outArea)
-        inArea.clearSelection();
+      studentArray = studentList.toArray(new Student[studentList.size()]);
+      studentArea = new JList<Student>(studentArray);
     }
   }
 }  
