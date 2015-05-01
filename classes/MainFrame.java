@@ -32,21 +32,21 @@ public class MainFrame extends JFrame
 
     public MainFrame()
     {
-        bar =               new JMenuBar();
-        fileMenu =          new JMenu("File");
-        studentMenu =       new JMenu("Student");
-        professorMenu =     new JMenu("Professor");
-        fileFrameItem1 =    new JMenuItem("Login");
-        fileFrameItem2 =    new JMenuItem("Logoff");
-        fileFrameItem3 =    new JMenuItem("Close"); 
-        studentFrameItem1 = new JMenuItem("Find Student");
-        studentFrameItem2 = new JMenuItem("Display Course Schedule");
-        studentFrameItem3 = new JMenuItem("Add/Drop Section");
-        studentFrameItem4 = new JMenuItem("View Transcript");
-        professorFrameItem1 =   new JMenuItem("Find Professor");
-        professorFrameItem2 =   new JMenuItem("Displaying Teaching Assignments");
-        professorFrameItem3 =   new JMenuItem("Display Student Roster");
-        professorFrameItem4 =   new JMenuItem("Agree to teach a course");                                        
+        bar =                 new JMenuBar();
+        fileMenu =            new JMenu("File");
+        studentMenu =         new JMenu("Student");
+        professorMenu =       new JMenu("Professor");
+        fileFrameItem1 =      new JMenuItem("Login");
+        fileFrameItem2 =      new JMenuItem("Logoff");
+        fileFrameItem3 =      new JMenuItem("Close"); 
+        studentFrameItem1 =   new JMenuItem("Find Student");
+        studentFrameItem2 =   new JMenuItem("Display Course Schedule");
+        studentFrameItem3 =   new JMenuItem("Add/Drop Section");
+        studentFrameItem4 =   new JMenuItem("View Transcript");
+        professorFrameItem1 = new JMenuItem("Find Professor");
+        professorFrameItem2 = new JMenuItem("Displaying Teaching Assignments");
+        professorFrameItem3 = new JMenuItem("Display Student Roster");
+        professorFrameItem4 = new JMenuItem("Agree to teach a course");                                        
         fileMenu.add(fileFrameItem1);
         fileMenu.add(fileFrameItem2);
         fileMenu.add(fileFrameItem3);
@@ -79,7 +79,7 @@ public class MainFrame extends JFrame
         frameList.add(addDropSectionFrame);
         for (JInternalFrame jIF : frameList)
         {
-            jIF.setSize(300,300);
+            jIF.setSize(325,300);
             mainPane.add(jIF);
             jIF.setVisible(false);
             jIF.setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -157,6 +157,11 @@ public class MainFrame extends JFrame
                 JOptionPane.showMessageDialog(null, "There was an error logging off.","Failed Logoff", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    public void refreshPersonalFrames()
+    {
+        ((AddDropSectionFrame)addDropSectionFrame).refresh();
     }
 
     public static void main( String[] args )

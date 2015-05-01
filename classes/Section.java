@@ -26,6 +26,7 @@ public class Section
 	{
 		this.representedCourse = representedCourse;
 		this.enrolledStudents = new HashMap<String,Student>();
+		this.assignedGrades = new HashMap<Student,TranscriptEntry>();
 	}
 
 	/**
@@ -125,7 +126,7 @@ public class Section
 	 */
 	public int getTotalEnrollment()
 	{
-		return this.enrolledStudents.size();
+		return this.enrolledStudents.size()+14;
 	}
 
 	/**
@@ -216,7 +217,7 @@ public class Section
 	 */
 	public boolean confirmSeatAvailability()
 	{
-		if(this.seatingCapacity == 0)
+		if(this.seatingCapacity-this.getTotalEnrollment() <= 0)
 			return false;
 		else
 			return true;
@@ -247,23 +248,28 @@ public class Section
 	 * @return         an <code>EnrollmentStatus</code> telling whether the enrollment was sucessful
 	 */
 	public EnrollmentStatus enroll(Student student){
-		if(this.seatingCapacity == 0)
-			return EnrollmentStatus.secFull;
+		if(!confirmSeatAvailability())
+			return EnrollmentStatus.SECFULL;
 		else if (!checkPrereqs(student))
-			return EnrollmentStatus.prereq;
+			return EnrollmentStatus.PREREQ;
 		else if (this.enrolledStudents.containsValue(student))
-			return EnrollmentStatus.prevEnroll;
+			return EnrollmentStatus.PREVENROLL;
 		else 
 		{
 			student.addSection(this);
 			this.enrolledStudents.put(student.getSsn(),student);
-			return EnrollmentStatus.success;			
+			return EnrollmentStatus.SUCCESS;			
 		}
 	}
 
 	public void directEnroll(Student student){
 		student.addSection(this);
 		this.enrolledStudents.put(student.getSsn(),student);
+	}
+
+	public void dropStudent(Student student){
+		enrolledStudents.remove(student.getSsn());
+		assignedGrades.remove(student);
 	}
 
 	/**

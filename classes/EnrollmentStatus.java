@@ -5,10 +5,10 @@
  */
 public enum EnrollmentStatus
 {
-	success ( "Enrollment successful! :o)"), 
-	secFull ( " Enrollment failed; section was full. :op"), 
-	prereq ( " Enrollment failed; prerequisites not satisfied. :op"), 
-	prevEnroll ( "Enrollment failed; previously enrolled. :op");
+	SUCCESS ("Enrollment successful!"), 
+	SECFULL ("Enrollment failed; section was full."), 
+	PREREQ ("Enrollment failed; prerequisites not satisfied."), 
+	PREVENROLL ("Enrollment failed; previously enrolled.");
 	
 	private final String value;
 

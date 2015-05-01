@@ -88,41 +88,8 @@ public class LoginFrame extends JInternalFrame
           userTextField.setText("");
           passwordField.setText("");
           setVisible(false);
+          srsCon.getMainFrame().refreshPersonalFrames();
         }
-
-//        username = userTextField.getText();
-//        password = passwordField.getPassword();
-//        boolean confirmed = false;
-//        try 
-//        {
-//          Scanner sc = new Scanner(new File("logins.txt"));
-//          while(sc.hasNext() && !confirmed)
-//          {
-//            String[] entry = sc.next().split(",");
-//            System.out.println("user: "+username+ "  entry[0]: "+entry[0]);
-//            System.out.println("password: "+password+ "  entry[1]: "+entry[1]);           
-//             if( Arrays.equals (entry[0].toCharArray(), username.toCharArray()) && Arrays.equals (entry[1].toCharArray(), password))
-//             {
-//              confirmed = true;
-//              break;
-//            }             
-//          }
-//          if(!confirmed)
-//          {
-//            JOptionPane.showMessageDialog( null, "Unsuccessful Login","Failed Login", JOptionPane.ERROR_MESSAGE );
-//            userTextField.setText("");
-//            passwordField.setText("");
-//          }
-//          else
-//          {
-//            JOptionPane.showMessageDialog( null, "Successful Login","Successful Login", JOptionPane.INFORMATION_MESSAGE );
-//            setClosed( true ); 
-//          }
-//        }
-//        catch(Exception e)
-//        {
-//          e.printStackTrace();
-//        }
       }
       else if( event.getSource() == cancelButton )
       {
