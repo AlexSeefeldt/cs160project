@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import java.util.Scanner; 
 import java.awt.GridLayout; 
-import javax.swing.BoxLayout;
 import java.io.File; 
 import java.io.FileNotFoundException;
 import java.util.Arrays; 
@@ -61,8 +60,7 @@ public class FindStudentFrame extends JInternalFrame
   }  
   
   private class FindStudentHandler implements ActionListener  
-  { 
-    // process textfield events 
+  {
     public void actionPerformed( ActionEvent event ) 
     {
       if ( event.getSource() == enterButton ) 

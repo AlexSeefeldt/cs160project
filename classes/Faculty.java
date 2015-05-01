@@ -61,4 +61,9 @@ public class Faculty
 	{
 		return professors.isEmpty();
 	}
+
+	public ArrayList<Professor> getProfessors()
+	{
+		return new ArrayList<Professor>(professors.values());
+	}
 }

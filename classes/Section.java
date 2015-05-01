@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * This class models a section of a course.
@@ -126,7 +127,12 @@ public class Section
 	 */
 	public int getTotalEnrollment()
 	{
-		return this.enrolledStudents.size()+14;
+		return this.enrolledStudents.size();
+	}
+
+	public ArrayList<Student> getEnrolledStudents()
+	{
+		return new ArrayList<Student>(enrolledStudents.values());
 	}
 
 	/**

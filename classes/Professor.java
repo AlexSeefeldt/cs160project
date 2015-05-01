@@ -88,7 +88,7 @@ public class Professor extends Person
 	 */
 	public String toString()
 	{
-		return "Title: "+this.title+" Name: "+this.getName()+" Department: "+this.department;
+		return this.getName()+", "+this.department;
 	}
 
 	/**

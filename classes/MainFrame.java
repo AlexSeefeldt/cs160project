@@ -22,9 +22,9 @@ public class MainFrame extends JFrame
     private JMenu fileMenu, studentMenu, professorMenu;
     private JMenuItem fileFrameItem1, fileFrameItem2, fileFrameItem3,
                       studentFrameItem1, studentFrameItem2, studentFrameItem3,
-                      studentFrameItem4, professorFrameItem1, professorFrameItem2,
-                      professorFrameItem3, professorFrameItem4;
-    private JInternalFrame loginFrame, findStudentFrame, findProfessorFrame, addDropSectionFrame;
+                      studentFrameItem4, professorFrameItem1, professorFrameItem2;
+    private JInternalFrame loginFrame, findStudentFrame, findProfessorFrame,
+                           addDropSectionFrame, teachingAssignmentsFrame;
     private ActionListener listener;
     private ArrayList<JInternalFrame> frameList = new ArrayList<JInternalFrame>();
     private Student loggedIn = null;
@@ -42,11 +42,9 @@ public class MainFrame extends JFrame
         studentFrameItem1 =   new JMenuItem("Find Student");
         studentFrameItem2 =   new JMenuItem("Display Course Schedule");
         studentFrameItem3 =   new JMenuItem("Add/Drop Section");
-        studentFrameItem4 =   new JMenuItem("View Transcript");
+        studentFrameItem4 =   new JMenuItem("Display Student Roster");
         professorFrameItem1 = new JMenuItem("Find Professor");
-        professorFrameItem2 = new JMenuItem("Displaying Teaching Assignments");
-        professorFrameItem3 = new JMenuItem("Display Student Roster");
-        professorFrameItem4 = new JMenuItem("Agree to teach a course");                                        
+        professorFrameItem2 = new JMenuItem("Display Teaching Assignments");                                   
         fileMenu.add(fileFrameItem1);
         fileMenu.add(fileFrameItem2);
         fileMenu.add(fileFrameItem3);
@@ -56,8 +54,6 @@ public class MainFrame extends JFrame
         studentMenu.add(studentFrameItem4);
         professorMenu.add(professorFrameItem1);
         professorMenu.add(professorFrameItem2);
-        professorMenu.add(professorFrameItem3);
-        professorMenu.add(professorFrameItem4);
         bar.add(fileMenu); // add Add menu to menu bar
         setJMenuBar(bar); // set menu bar for this application
         bar.add(studentMenu);
@@ -77,6 +73,8 @@ public class MainFrame extends JFrame
         frameList.add(findProfessorFrame);
         addDropSectionFrame = new AddDropSectionFrame(srsCon);
         frameList.add(addDropSectionFrame);
+        teachingAssignmentsFrame = new TeachingAssignmentsFrame(srsCon);
+        frameList.add(teachingAssignmentsFrame);
         for (JInternalFrame jIF : frameList)
         {
             jIF.setSize(325,300);
@@ -107,10 +105,39 @@ public class MainFrame extends JFrame
             {
                 if (sourceItem.equals(studentFrameItem1))
                     findStudentFrame.setVisible(true);
-                else if (sourceItem.equals(professorFrameItem1))
-                    findProfessorFrame.setVisible(true);
+                else if (sourceItem.equals(studentFrameItem2))
+                {
+                    StringBuilder displayString = new StringBuilder("Here is your current schedule:");
+                    for (Section s : loggedIn.getEnrolledSections())
+                    {
+                      displayString.append("\n");
+                      displayString.append(s.getRepresentedCourse().getCourseNo()+" ");
+                      displayString.append(s.getRepresentedCourse().getCourseName()+", ");
+                      displayString.append("Section "+s.getSectionNo()+": ");
+                      switch (s.getDayOfWeek().charAt(0))
+                      {
+                        case 'M': displayString.append("Monday "+s.getTimeOfDay());
+                                  break;
+                        case 'T': displayString.append("Tuesday "+s.getTimeOfDay());
+                                  break;
+                        case 'W': displayString.append("Wednesday "+s.getTimeOfDay());
+                                  break;
+                        case 'R': displayString.append("Thursday "+s.getTimeOfDay());
+                                  break;
+                        case 'F': displayString.append("Friday "+s.getTimeOfDay());
+                                  break;
+                        default:  displayString.append(s.getTimeOfDay());
+                                  break;
+                      }
+                    }
+                    JOptionPane.showMessageDialog(null, ""+displayString, "Display Schedule", JOptionPane.INFORMATION_MESSAGE);
+                }
                 else if (sourceItem.equals(studentFrameItem3))
                     addDropSectionFrame.setVisible(true);
+                else if (sourceItem.equals(professorFrameItem1))
+                    findProfessorFrame.setVisible(true);
+                else if (sourceItem.equals(professorFrameItem2))
+                    teachingAssignmentsFrame.setVisible(true);
 
                 else if (sourceItem.equals(fileFrameItem2))
                 {
