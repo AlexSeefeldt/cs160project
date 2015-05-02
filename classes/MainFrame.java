@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
 import java.util.Random;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -22,7 +23,7 @@ public class MainFrame extends JFrame
     private JMenu fileMenu, studentMenu, professorMenu;
     private JMenuItem fileFrameItem1, fileFrameItem2, fileFrameItem3,
                       studentFrameItem1, studentFrameItem2, studentFrameItem3,
-                      studentFrameItem4, professorFrameItem1, professorFrameItem2;
+                      /* studentFrameItem4, */ professorFrameItem1, professorFrameItem2;
     private JInternalFrame loginFrame, findStudentFrame, findProfessorFrame,
                            addDropSectionFrame, teachingAssignmentsFrame;
                            //studentRosterFrame;
@@ -43,7 +44,7 @@ public class MainFrame extends JFrame
         studentFrameItem1 =   new JMenuItem("Find Student");
         studentFrameItem2 =   new JMenuItem("Display Course Schedule");
         studentFrameItem3 =   new JMenuItem("Add/Drop Section");
-        studentFrameItem4 =   new JMenuItem("Display Student Roster");
+        //studentFrameItem4 =   new JMenuItem("Display Student Roster");
         professorFrameItem1 = new JMenuItem("Find Professor");
         professorFrameItem2 = new JMenuItem("Display Teaching Assignments");                                   
         fileMenu.add(fileFrameItem1);
@@ -52,18 +53,18 @@ public class MainFrame extends JFrame
         studentMenu.add(studentFrameItem1);
         studentMenu.add(studentFrameItem2);
         studentMenu.add(studentFrameItem3);
-        studentMenu.add(studentFrameItem4);
+        //studentMenu.add(studentFrameItem4);
         professorMenu.add(professorFrameItem1);
         professorMenu.add(professorFrameItem2);
-        bar.add(fileMenu); // add Add menu to menu bar
-        setJMenuBar(bar); // set menu bar for this application
+        bar.add(fileMenu);
+        setJMenuBar(bar);
         bar.add(studentMenu);
         setJMenuBar(bar);
         bar.add(professorMenu);
         setJMenuBar(bar);
-        // DELETE THE FOLLOWING 2 LINES TO REMOVE THE LOGIN CHEAT
-        try{ loggedIn = srsCon.getSRSDataAccess().initializeStudent("995-64-7152"); }
-        catch (FileNotFoundException e){}
+        // LOGIN CHEAT
+        //try{ loggedIn = srsCon.getSRSDataAccess().initializeStudent("995-64-7152"); }
+        //catch (FileNotFoundException e){}
         mainPane = new JDesktopPane(); // create desktop pane
         add(mainPane); // add desktop pane to frame
         loginFrame = new LoginFrame(srsCon);
@@ -143,14 +144,27 @@ public class MainFrame extends JFrame
                     findProfessorFrame.setVisible(true);
                 else if (sourceItem.equals(professorFrameItem2))
                     teachingAssignmentsFrame.setVisible(true);
-
                 else if (sourceItem.equals(fileFrameItem2))
                 {
-                    logOff();
+                    int option = JOptionPane.showOptionDialog(null, "Are you sure you want to log off?","Logoff", 
+                                                              JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+                    if (option == JOptionPane.YES_OPTION)
+                        logOff();
                 }
             }
             else if(sourceItem.equals(fileFrameItem1))
                 loginFrame.setVisible(true);
+            else if (sourceItem.equals(fileFrameItem3))
+                {
+                    if (loggedIn != null)
+                    {
+                    int option = JOptionPane.showOptionDialog(null, "Would you like to log off before exiting?","Logoff", 
+                                                              JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+                    if (option == JOptionPane.YES_OPTION)
+                        logOff();
+                    }
+                    dispose();
+                }
             else
             {
                 JOptionPane.showMessageDialog(null, "Log in before attempting a function", "Not Logged In", JOptionPane.ERROR_MESSAGE);
@@ -170,10 +184,6 @@ public class MainFrame extends JFrame
 
     public void logOff()
     {
-        int option = JOptionPane.showOptionDialog(null, "Are you sure you want to log off?","Logoff", 
-                                                  JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
-        if (option == JOptionPane.YES_OPTION)
-        {
             try
             {
                 srsCon.getSRSDataAccess().persistStudent(loggedIn);
@@ -188,7 +198,6 @@ public class MainFrame extends JFrame
             {
                 JOptionPane.showMessageDialog(null, "There was an error logging off.","Failed Logoff", JOptionPane.ERROR_MESSAGE);
             }
-        }
     }
 
     public void refreshPersonalFrames()

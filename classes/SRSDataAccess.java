@@ -6,11 +6,12 @@ import java.io.FileNotFoundException;
 
 public class SRSDataAccess
 {
-	private static final String SCHEDULE_FILE_NAME = "SRSDatFiles\\SoC_";
-	private static final String FACULTY_FILE_NAME = "SRSDatFiles\\Faculty.dat";
-	private static final String ASSIGNMENTS_FILE_NAME = "SRSDatFiles\\TeachingAssignments.dat";
-	private static final String COURSE_FILE_NAME = "SRSDatFiles\\CourseCatalog.dat";
-	private static final String PREREQ_FILE_NAME = "SRSDatFiles\\Prerequisites.dat";
+	private static final String UNISLASH = System.getProperty("file.separator");
+	private static final String SCHEDULE_FILE_NAME = "SRSDatFiles"+UNISLASH+"SoC_";
+	private static final String FACULTY_FILE_NAME = "SRSDatFiles"+UNISLASH+"Faculty.dat";
+	private static final String ASSIGNMENTS_FILE_NAME = "SRSDatFiles"+UNISLASH+"TeachingAssignments.dat";
+	private static final String COURSE_FILE_NAME = "SRSDatFiles"+UNISLASH+"CourseCatalog.dat";
+	private static final String PREREQ_FILE_NAME = "SRSDatFiles"+UNISLASH+"Prerequisites.dat";
 	private static ScheduleOfClasses scheduleOfClasses = null;
 	private static CourseCatalog courseCatalog = null;
 	private static Scanner fileScan;
@@ -107,7 +108,7 @@ public class SRSDataAccess
 
 	public static void persistStudent(Student student) throws FileNotFoundException
 	{
-		PrintWriter print = new PrintWriter(new File("SRSDatFiles\\" + student.getSsn() + ".dat"));
+		PrintWriter print = new PrintWriter(new File("SRSDatFiles" + UNISLASH + student.getSsn() + ".dat"));
 		print.println(student.getSsn()+"\t"+student.getName()+"\t"+student.getMajor()+"\t"+student.getDegree());
 		for (Section s : student.getEnrolledSections())
 		{

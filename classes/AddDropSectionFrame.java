@@ -25,7 +25,7 @@ public class AddDropSectionFrame extends JInternalFrame
   private SRSContainer srsCon;
   private JPanel panel1, panel2, panel3, panel4;
   private JList<Section> inArea, outArea;
-  ArrayList<Section> studentList, classList;
+  ArrayList<Section> studentList = new ArrayList<Section>(), classList;
   
   public AddDropSectionFrame(SRSContainer srsCon) 
   { 
@@ -36,9 +36,14 @@ public class AddDropSectionFrame extends JInternalFrame
     panel2 = new JPanel(new GridLayout(1,1));
     panel3 = new JPanel(new GridLayout(1,1));
     panel4 = new JPanel(new GridLayout(1,4));
-    studentList = srsCon.getMainFrame().getLoggedIn().getEnrolledSections();
-    Section[] studentArray = studentList.toArray(new Section[studentList.size()]);
-    inArea = new JList<Section>(studentArray);
+    if (srsCon.getMainFrame().getLoggedIn() != null)
+    {
+      studentList = srsCon.getMainFrame().getLoggedIn().getEnrolledSections();
+      Section[] studentArray = studentList.toArray(new Section[studentList.size()]);
+      inArea = new JList<Section>(studentArray);
+    }
+    else
+      inArea = new JList<Section>();
     inArea.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     panel2.add(new JScrollPane(inArea));
     classList = srsCon.getScheduleOfClasses().getSectionsOffered();
